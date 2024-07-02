@@ -1,0 +1,140 @@
+import React, { useState, useEffect } from "react";
+import { Table, Container, Button, Modal, Form } from "react-bootstrap";
+import axios from "axios";
+import Header from "../components/Header/Header";
+import Footer from "../components/Footer/Footer";
+
+const ApprovalList = () => {
+  const [exams, setExams] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editedExam, setEditedExam] = useState(null);
+  const [editedApprovalStatus, setEditedApprovalStatus] = useState("");
+  const baseURL = process.env.REACT_APP_BASE_URL;
+
+  useEffect(() => {
+    const fetchExams = async () => {
+      try {
+        const response = await axios.get(
+          `${baseURL}examapprovals/examApprovals`
+        );
+        console.log(response.data);
+        setExams(response.data);
+      } catch (error) {
+        console.error("Error fetching exams:", error);
+      }
+    };
+
+    fetchExams();
+  }, [baseURL]);
+
+  const handleShowEditModal = (exam) => {
+    setEditedExam(exam);
+    setEditedApprovalStatus(exam.approved);
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+  };
+
+  const handleEditApproval = async () => {
+    try {
+      await axios.put(
+        `${baseURL}examapprovals/editApproval/${editedExam._id}`,
+        {
+          approved: editedApprovalStatus,
+        }
+      );
+
+      // Update the local state to reflect the change
+      setExams((prevExams) =>
+        prevExams.map((exam) =>
+          exam._id === editedExam._id
+            ? { ...exam, approved: editedApprovalStatus }
+            : exam
+        )
+      );
+
+      // Close the edit modal
+      setShowEditModal(false);
+    } catch (error) {
+      console.error("Error editing approval:", error);
+    }
+  };
+
+  return (
+    <>
+      <Container fluid>
+        <Header />
+        <Container className="mt-5 p-5 mb-5 pb-5">
+          <h1 className="mb-2 text-center">
+            <strong>Active Exams</strong>
+          </h1>
+          <br />
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Approval Status</th>
+                <th>Exam ID</th>
+                <th>Approval Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.isArray(exams) && exams.length > 0 ? (
+                exams.map((exam) => (
+                  <tr key={exam._id}>
+                    <td>{exam.approved}</td>
+                    <td>{exam.exam}</td>
+                    <td>{new Date(exam.approvalDate).toLocaleString()}</td>
+                    {exam.approved === "Disapproved" && (
+                      <td>
+                        <Button
+                          variant="warning"
+                          onClick={() => handleShowEditModal(exam)}
+                        >
+                          Edit Exam
+                        </Button>
+                      </td>
+                    )}
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4">No exams available</td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </Container>
+        <Footer />
+      </Container>
+
+      {/* Edit Exam Modal */}
+      <Modal show={showEditModal} onHide={handleCloseEditModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Exam</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {editedExam && (
+            <div>
+              <p>
+                <strong>Exam ID:</strong> {editedExam.exam}
+              </p>
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseEditModal}>
+            Cancel
+          </Button>
+          <Button variant="success" onClick={handleEditApproval}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
+
+export default ApprovalList;
