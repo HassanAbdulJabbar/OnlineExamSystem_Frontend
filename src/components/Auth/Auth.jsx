@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-bootstrap";
 
+import { endpoints } from "../../endpoints";
 import "./Auth.css";
 
 const initialValue = {
@@ -32,18 +33,13 @@ const Auth = () => {
   const [signupSuccess, setSignupSuccess] = useState(false);
 
   const submit = async (values) => {
-    const apiEndpoint = login
-      ? `authRoutes/auth/signin`
-      : `authRoutes/auth/signup`;
+    const apiEndpoint = login ? endpoints.auth.signin : endpoints.auth.signup;
 
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}${apiEndpoint}`,
-        {
-          ...values,
-          UserRole,
-        }
-      );
+      const response = await axios.post(apiEndpoint, {
+        ...values,
+        UserRole,
+      });
 
       console.log(response);
 
@@ -66,10 +62,9 @@ const Auth = () => {
         setTimeout(() => {
           setSignupSuccess(false);
 
-          // Redirect to the login page after successful signup
           setLogin(true); // Switch to the login view
           navigate("/login"); // Redirect to login page
-        }, 3000); // Redirect after a delay (adjust as needed)
+        }, 2000); // Redirect after a delay (adjust as needed)
       }
 
       setEmailError("");
@@ -88,23 +83,24 @@ const Auth = () => {
   return (
     <div className="login-background">
       <div className="inner-div row">
-        <div className="col-7 left-side mt-4">
-          <h1 className="text-center">
-            Welcome to Lookscout examination system
-          </h1>
-        </div>
+        <div className="col-7 left-side mt-1 mx-4"></div>
         <div
           className="col-5"
           style={{ backgroundColor: "skyblue", borderRadius: "30px" }}
         >
           {login ? (
             <form className="login-form" onSubmit={handleSubmit(submit)}>
-              <h1 className="mb-5">Sign In</h1>
-              <span>Don't have an account, no worries &nbsp;</span>
-              <Link to="/Login" onClick={() => setLogin(false)}>
-                click here
-              </Link>
-              <span>&nbsp; to register</span> <br />
+              <h1 className="mb-3 header">Sign In</h1>
+              <span className="text-center">
+                <span>
+                  Don't have an account, no worries <br />
+                </span>
+                <Link to="/Login" onClick={() => setLogin(false)}>
+                  click here
+                </Link>
+                <span> to register</span>
+              </span>{" "}
+              <br />
               <input
                 type="email"
                 placeholder="Email"
@@ -129,19 +125,26 @@ const Auth = () => {
               <p className="ms-2 mt-2 warnings">
                 {errors.password && errors.password.message}
               </p>
-              <p className="ms-2 mt-1 warnings">{passwordError}</p>
-              <button type="submit" className="mt-1 btn btn-primary">
+              <p className="warnings">{passwordError}</p>
+              <button
+                type="submit"
+                className="btn btn-primary judtify-content-end"
+              >
                 Sign In
               </button>
             </form>
           ) : (
             <form className="login-form" onSubmit={handleSubmit(submit)}>
-              <h1 className="mb-5">Sign Up</h1>
-              <span>Please enter your information or &nbsp;</span>
-              <Link to="/Login" onClick={() => setLogin(true)}>
-                Click here
-              </Link>
-              <span>&nbsp; if you already have an account</span> <br />
+              <h1 className="mb-2 header">Sign Up</h1>
+              <span className="text-center">
+                <span>
+                  Please enter your information or <br />
+                </span>
+                <Link to="/Login" onClick={() => setLogin(true)}>
+                  Click here
+                </Link>
+                <span>&nbsp; if you already have an account :)</span>
+              </span>
               <input
                 type="text"
                 placeholder="Name"

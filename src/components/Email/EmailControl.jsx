@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { Button, Container, Form } from "react-bootstrap";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import { endpoints } from "../../endpoints";
 
 const InviteForm = () => {
   const [inviteData, setInviteData] = useState({
@@ -23,20 +26,24 @@ const InviteForm = () => {
 
   const handleSendInvite = async () => {
     try {
-      // Send a request to your server to send the invitation email
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}mailer/send-invite`,
-        {
-          receiverEmail: inviteData.receiverEmail,
-          emailSubject: inviteData.emailSubject,
-          emailBody: inviteData.emailBody,
-        }
-      );
+      const response = await axios.post(endpoints.sendEmail.newEmail, {
+        receiverEmail: inviteData.receiverEmail,
+        emailSubject: inviteData.emailSubject,
+        emailBody: inviteData.emailBody,
+      });
 
-      // Handle the response as needed
-      console.log(response.data);
+      // Clear form data
+      setInviteData({
+        receiverEmail: "",
+        emailSubject: "",
+        emailBody: "",
+      });
+
+      // Show success notification
+      toast.success("Email sent successfully!");
     } catch (error) {
-      console.error("Error sending invite:", error);
+      // Show error notification
+      toast.error("Error sending invite: " + error.message);
     }
   };
 
@@ -99,6 +106,7 @@ const InviteForm = () => {
         </Form>
       </Container>
       <Footer />
+      <ToastContainer />
     </Container>
   );
 };

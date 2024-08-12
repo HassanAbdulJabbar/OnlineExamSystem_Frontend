@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
+import { endpoints } from "../endpoints";
 
 const AdminExamDetails = () => {
   const { id } = useParams();
@@ -17,9 +18,7 @@ const AdminExamDetails = () => {
 
   const fetchExam = async () => {
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}apii/examslist`
-      );
+      const response = await axios.get(endpoints.examApproval.getExams);
       setExamDetails(response.data);
     } catch (error) {
       console.error("Error fetching Exam:", error);
