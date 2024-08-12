@@ -35,7 +35,6 @@ const ExamApprovalComponent = () => {
       const updatedExams = await axios.get(
         `${process.env.REACT_APP_BASE_URL}examapprovals/examApprovals`
       );
-      console.log(updatedExams.data);
       setExams(updatedExams.data);
     } catch (error) {
       console.error("Error approving exam:", error);

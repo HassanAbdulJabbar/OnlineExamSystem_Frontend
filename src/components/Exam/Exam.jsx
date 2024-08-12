@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-
 import {
   Alert,
   Button,
@@ -16,10 +15,11 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Timer from "../Timer/Timer";
 import ExamContext from "../../context/ExamContext"; // Update the path accordingly
+import { endpoints } from "../../endpoints";
+import axios from "axios";
 
 const ExamComponent = () => {
   const { approvedExams } = useContext(ExamContext);
-  // console.log("approvedExams", approvedExams);
   const [searchParams, setSearchParams] = useSearchParams();
   const [examId, setExamId] = useState(searchParams.get("examId"));
   const [exam, setExam] = useState(null);
@@ -42,7 +42,6 @@ const ExamComponent = () => {
       if (filteredExam.length > 0) {
         setExam(filteredExam[0]);
         setQuestions(filteredExam[0]?.questions);
-        // console.log("uf", filteredExam[0]?.questions);
       }
     }
   }, [examId, approvedExams]);
@@ -72,16 +71,25 @@ const ExamComponent = () => {
   const handleUserResponse = (response) => {
     const currentQuestion = questions[currentQuestionIndex];
     const obtainedMarksForQuestion =
-      response === currentQuestion.correctAnswer ? currentQuestion.marks : 5;
-    setUserResponses((prevResponses) => ({
-      ...prevResponses,
-      [currentQuestionIndex]: {
-        response,
-        marks: obtainedMarksForQuestion,
-      },
-    }));
+      response === currentQuestion.correctAnswer ? currentQuestion.marks : 0; // Assign 0 if the answer is wrong
 
-    setTotalMarks((prevTotal) => prevTotal + obtainedMarksForQuestion);
+    setUserResponses((prevResponses) => {
+      const previousMarks = prevResponses[currentQuestionIndex]?.marks || 0;
+      const updatedResponses = {
+        ...prevResponses,
+        [currentQuestionIndex]: {
+          response,
+          marks: obtainedMarksForQuestion,
+        },
+      };
+
+      // Update total marks correctly
+      setTotalMarks(
+        (prevTotal) => prevTotal - previousMarks + obtainedMarksForQuestion
+      );
+
+      return updatedResponses;
+    });
   };
 
   const handleSubmitExam = async () => {
@@ -91,11 +99,9 @@ const ExamComponent = () => {
     determinePassOrFail();
 
     try {
-      // Assuming your backend URL is stored in the REACT_APP_BASE_URL variable
-      const apiUrl = `${process.env.REACT_APP_BASE_URL}anwers/answer`;
+      const apiUrl = endpoints.exam.userExam;
 
-      const response = await fetch(apiUrl, {
-        method: "POST",
+      const response = await axios.post(apiUrl, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -110,14 +116,11 @@ const ExamComponent = () => {
 
       if (response.ok) {
         console.log("User responses saved successfully!");
-        // Add any additional logic after successful response saving
       } else {
         console.error("Failed to save user responses:", response.statusText);
-        // Handle error cases
       }
     } catch (error) {
       console.error("Error saving user responses:", error.message);
-      // Handle error cases
     }
   };
 
@@ -126,16 +129,8 @@ const ExamComponent = () => {
 
     questions.forEach((question, index) => {
       const userResponse = userResponses[index]?.response;
-      if (question.options) {
-        // Multiple Choice Question
-        if (userResponse === question.correctAnswer) {
-          correctCount++;
-        }
-      } else {
-        // Text-Based Question
-        if (userResponse === question.correctAnswer) {
-          correctCount++;
-        }
+      if (userResponse === question.correctAnswer) {
+        correctCount++;
       }
     });
 
@@ -155,8 +150,8 @@ const ExamComponent = () => {
   };
 
   const determinePassOrFail = () => {
-    const percentageCorrect =
-      (totalMarks / calculateResults().totalQuestions) * 100;
+    const totalPossibleMarks = questions.reduce((sum, q) => sum + q.marks, 0);
+    const percentageCorrect = (totalMarks / totalPossibleMarks) * 100;
 
     if (percentageCorrect >= 40) {
       setPassOrFail("Pass");
@@ -212,18 +207,7 @@ const ExamComponent = () => {
                           </Alert>
                         )}
                       </td>
-                      <td>
-                        {question?.options[question.correctAnswer] ===
-                        userResponses[index]?.response ? (
-                          <Alert variant="success">
-                            {question?.options[question.correctAnswer]}
-                          </Alert>
-                        ) : (
-                          <Alert variant="danger">
-                            {question?.options[question.correctAnswer]}
-                          </Alert>
-                        )}
-                      </td>
+                      <td>{question?.options[question.correctAnswer]}</td>
                       <td>{userResponses[index]?.marks}</td>
                     </tr>
                   ))}
@@ -231,14 +215,6 @@ const ExamComponent = () => {
               </Table>
               <Container className="mt-4">
                 <div className="text-center">
-                  {/* {results.percentageCorrect === 0 && (
-                    <Alert variant="danger">Result Status: Fail</Alert>
-                  )}
-                  {results.percentageCorrect > 0 && (
-                    <Alert variant="info">
-                      Result Status: <strong>{results.resultStatus}</strong>
-                    </Alert>
-                  )} */}
                   <Alert variant="info">
                     Total Marks Obtained: <strong>{totalMarks}</strong>
                   </Alert>
@@ -266,27 +242,19 @@ const ExamComponent = () => {
                   <Form>
                     {questions[currentQuestionIndex].options.map(
                       (choice, index) => (
-                        <>
-                          {console.log(index)}
-                          <FormGroup key={index} controlId={`choice-${index}`}>
-                            <FormCheck
-                              type="radio"
-                              id={`choice-${index}`}
-                              label={choice}
-                              name="multipleChoiceResponse"
-                              onChange={() =>
-                                handleUserResponse(
-                                  choice,
-                                  questions[currentQuestionIndex].marks
-                                )
-                              }
-                              checked={
-                                userResponses[currentQuestionIndex]
-                                  ?.response === choice
-                              }
-                            />
-                          </FormGroup>
-                        </>
+                        <FormGroup key={index} controlId={`choice-${index}`}>
+                          <FormCheck
+                            type="radio"
+                            id={`choice-${index}`}
+                            label={choice}
+                            name="multipleChoiceResponse"
+                            onChange={() => handleUserResponse(choice)}
+                            checked={
+                              userResponses[currentQuestionIndex]?.response ===
+                              choice
+                            }
+                          />
+                        </FormGroup>
                       )
                     )}
                   </Form>

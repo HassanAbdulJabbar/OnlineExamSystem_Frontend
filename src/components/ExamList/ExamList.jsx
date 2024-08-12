@@ -6,6 +6,7 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import { endpoints } from "../../endpoints";
 
 const ExamList = () => {
   const [approvedExams, setApprovedExams] = useState([]);
@@ -13,14 +14,12 @@ const ExamList = () => {
   useEffect(() => {
     const fetchApprovedExams = async () => {
       try {
-        // Fetch data from the examApprovals collection
         const approvalResponse = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}examapprovals/examApprovals`
+          endpoints.examApproval.updatedExams
         );
 
         // Ensure the response data is an array
         if (!Array.isArray(approvalResponse.data)) {
-          console.error("Invalid data structure for exam approvals");
           return;
         }
 
@@ -30,14 +29,10 @@ const ExamList = () => {
           .map((approval) => approval.exam);
 
         // Fetch exams from the examslist collection based on approved IDs
-        const examsResponse = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}apii/examslist`
-        );
+        const examsResponse = await axios.get(endpoints.examApproval.getExams);
 
         // Ensure the response data is an array
         if (!Array.isArray(examsResponse.data.exams)) {
-          console.error("Invalid data structure for exams list");
-          console.log("Exams Response Data:", examsResponse.data);
           return;
         }
 

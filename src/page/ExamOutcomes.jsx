@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Table } from "react-bootstrap";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
+import { endpoints } from "../endpoints";
 
 const ExamDetails = () => {
   const [examData, setExamData] = useState([]);
@@ -10,9 +11,7 @@ const ExamDetails = () => {
     // Fetch data from taken exam API
     const fetchData = async () => {
       try {
-        const examResponse = await fetch(
-          `${process.env.REACT_APP_BASE_URL}anwers/answer/exam`
-        );
+        const examResponse = await fetch(endpoints.examOutcomes.examResult);
 
         if (!examResponse.ok) {
           throw new Error(

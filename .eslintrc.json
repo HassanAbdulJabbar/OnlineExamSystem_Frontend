@@ -1,0 +1,111 @@
+{
+  "root": true,
+  "ignorePatterns": ["src/assets/**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:jsx-a11y/recommended"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaVersion": 2020,
+        "sourceType": "module",
+        "ecmaFeatures": {
+          "jsx": true
+        }
+      },
+      "settings": {
+        "react": {
+          "version": "detect"
+        }
+      },
+      "rules": {
+        "react/prop-types": "off",
+        "react/jsx-uses-react": "off", // Not needed with React 17+
+        "react/react-in-jsx-scope": "off", // Not needed with React 17+
+        "react/jsx-boolean-value": ["error", "always"],
+        "react/jsx-curly-brace-presence": [
+          "error",
+          { "props": "never", "children": "never" }
+        ],
+        "react/jsx-key": "error",
+        "react/jsx-no-duplicate-props": "error",
+        "react/jsx-no-undef": "error",
+        "react/jsx-pascal-case": "error",
+        "react/jsx-tag-spacing": [
+          "error",
+          {
+            "beforeSelfClosing": "always"
+          }
+        ],
+        "react/self-closing-comp": "error",
+        "react/jsx-closing-bracket-location": [1, "tag-aligned"],
+        "react/function-component-definition": [
+          "error",
+          {
+            "namedComponents": "arrow-function",
+            "unnamedComponents": "arrow-function"
+          }
+        ],
+        "react/no-unknown-property": ["error", { "ignore": ["css"] }],
+        "react/no-array-index-key": "warn",
+        "react/prefer-stateless-function": "error",
+        "react/jsx-props-no-spreading": [
+          "warn",
+          {
+            "html": "enforce",
+            "custom": "enforce",
+            "explicitSpread": "ignore"
+          }
+        ],
+        "@typescript-eslint/explicit-function-return-type": "error",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "error",
+          {
+            "overrides": {
+              "constructors": "no-public"
+            }
+          }
+        ],
+        "@typescript-eslint/member-ordering": [
+          "error",
+          {
+            "default": [
+              "public-field",
+              "public-get",
+              "protected-field",
+              "protected-get",
+              "private-field",
+              "private-get",
+              "constructor",
+              "public-method",
+              "protected-method",
+              "private-method"
+            ]
+          }
+        ],
+        // TODO: look into enabling this rule
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "memberLike",
+            "modifiers": ["private"],
+            "format": ["camelCase"],
+            "leadingUnderscore": "require"
+          },
+          {
+            "selector": "typeLike",
+            "format": ["PascalCase"]
+          }
+        ],
+        "filenames/match-regex": ["error", "^[A-Z][a-zA-Z0-9]*$", true]
+      }
+    }
+  ]
+}

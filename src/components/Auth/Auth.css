@@ -3,6 +3,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  border-style: double;
+  border-width: 0.5cm;
   background-image: linear-gradient(to bottom right, #2193b0, #6dd5ed);
   height: 100vh;
   overflow: none;
@@ -14,19 +16,18 @@
   margin-top: 50px;
   display: flex;
   flex-direction: row;
-  width: 60vw;
-  /* margin-left: 20vw; */
-  /* justify-content: center; */
-  /* margin-top: 10vh; */
+  width: 70vw;
   padding: 10px;
   background-color: white;
+  border: 5px solid darkblue;
   border-radius: 30px;
 }
 
 .left-side {
-  /* padding-top: 100px; */
-  background-image: url("./../../../assets/exam-logo.png");
+  width: 50%;
+  background-image: url("./../../../assets/examPic.jpg");
   background-size: cover;
+  border-radius: 20px;
 }
 
 .side-text {
@@ -35,8 +36,13 @@
 }
 
 .login-form {
-  margin-top: 5em;
-  margin-left: 2em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1em;
+  margin-left: 0.5em;
 }
 
 .text-fields {
@@ -50,12 +56,8 @@
   outline: none;
 }
 
-/* .login-button {
-  background-color: blue;
-  color: whitesmoke;
-  border-radius: 10px;
-  font-weight: 600;
-  padding: 0.5em;
-  padding-left: 2em;
-  padding-right: 2em;
-} */
+.header {
+  color: darkblue;
+  font-size: 4em;
+  font-weight: bold;
+}

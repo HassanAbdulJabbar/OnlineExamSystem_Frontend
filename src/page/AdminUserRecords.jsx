@@ -5,6 +5,7 @@ import { Button, Container, Form, Modal, Table } from "react-bootstrap";
 
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
+import { endpoints } from "../endpoints";
 
 const AdminPage = () => {
   const [students, setStudents] = useState([]);
@@ -22,9 +23,7 @@ const AdminPage = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await Axios.get(
-        `${process.env.REACT_APP_BASE_URL}api/users`
-      );
+      const response = await Axios.get(endpoints.adminAddUsers.getAllUsers);
 
       // Separate students and teachers based on userType
       const studentData = response.data.filter(
@@ -61,20 +60,17 @@ const AdminPage = () => {
       let updateUserEndpoint;
 
       if (selectedUser.userType === "Student") {
-        updateUserEndpoint = `updateStudent/${selectedUser._id}`;
+        updateUserEndpoint = endpoints.adminUpdateUsers?.updateStudent;
       } else if (selectedUser.userType === "Teacher") {
-        updateUserEndpoint = `updateTeacher/${selectedUser._id}`;
+        updateUserEndpoint = endpoints.adminUpdateUsers?.updateTeacher;
       }
 
-      await Axios.put(
-        `${process.env.REACT_APP_BASE_URL}api/admin/${updateUserEndpoint}`,
-        {
-          name: updateName,
-          password: updatePassword, // Add password to the update request
-          email: updateEmail, // Add email to the update request
-          username: updateUsername, // Add username to the update request
-        }
-      );
+      await Axios.put(endpoints.adminUpdateUsers.updatedUserEndpoint, {
+        name: updateName,
+        password: updatePassword, // Add password to the update request
+        email: updateEmail, // Add email to the update request
+        username: updateUsername, // Add username to the update request
+      });
 
       fetchUsers(); // Refresh the user list after updating
       handleCloseModal();
@@ -95,14 +91,12 @@ const AdminPage = () => {
       let deleteUserEndpoint;
 
       if (selectedUser.userType === "Student") {
-        deleteUserEndpoint = `removeStudent/${selectedUser._id}`;
+        deleteUserEndpoint = endpoints.adminDeleteUsers.deleteStudent;
       } else if (selectedUser.userType === "Teacher") {
-        deleteUserEndpoint = `removeTeacher/${selectedUser._id}`;
+        deleteUserEndpoint = endpoints.adminDeleteUsers.deleteTeacher;
       }
 
-      await Axios.delete(
-        `${process.env.REACT_APP_BASE_URL}api/admin/${deleteUserEndpoint}`
-      );
+      await Axios.delete(endpoints.adminDeleteUsers.DeleteUserEndpoint);
       fetchUsers(); // Refresh the user list after deleting
       handleCloseModal();
     } catch (error) {
