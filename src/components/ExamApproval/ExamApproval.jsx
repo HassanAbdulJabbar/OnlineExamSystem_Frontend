@@ -85,69 +85,74 @@ const ExamApprovalComponent = () => {
         <h1 className="text-center mb-4">
           <strong>Exam Approvals</strong>
         </h1>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Start Date</th>
-              <th>Expiry Date</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(exams) && exams.length > 0 ? (
-              exams?.map((exam) => (
-                <tr key={exam._id}>
-                  <td>{exam._id}</td>
-                  <td>{new Date(exam.startDateTime).toLocaleString()}</td>
-                  <td>{new Date(exam.expiryDateTime).toLocaleString()}</td>
-                  <td>{exam.approved || "Pending"}</td>
-                  <td>
-                    {exam.approved === "approved" && (
-                      <>
-                        <Button
-                          variant="danger"
-                          onClick={() => cancelExam(exam._id)}
-                        >
-                          Cancel Exam
-                        </Button>{" "}
-                      </>
-                    )}
-                    {exam.approved !== "approved" &&
-                      exam.approved !== "disapproved" && (
-                        <>
-                          <Button
-                            variant="info"
-                            className="mx-5"
-                            onClick={() => viewExam(exam)}
-                          >
-                            View Exam
-                          </Button>{" "}
-                          <Button
-                            variant="success"
-                            onClick={() => approveExam(exam._id)}
-                          >
-                            Approve Exam
-                          </Button>{" "}
-                          <Button
-                            variant="warning"
-                            onClick={() => disapproveExam(exam._id)}
-                          >
-                            Disapprove Exam
-                          </Button>{" "}
-                        </>
-                      )}
-                  </td>
-                </tr>
-              ))
-            ) : (
+        <div className="table-responsive">
+          <Table striped bordered hover>
+            <thead>
               <tr>
-                <td colSpan="5">No exams available</td>
+                <th>Title</th>
+                <th>Start Date</th>
+                <th>Expiry Date</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
-            )}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {Array.isArray(exams) && exams.length > 0 ? (
+                exams.map((exam) => (
+                  <tr key={exam._id}>
+                    <td>{exam.title}</td>
+                    <td>{new Date(exam.startDateTime).toLocaleString()}</td>
+                    <td>{new Date(exam.expiryDateTime).toLocaleString()}</td>
+                    <td>{exam.approved || "Pending"}</td>
+                    <td>
+                      <div className="d-flex flex-column flex-md-row justify-content-center">
+                        {exam.approved === "approved" && (
+                          <Button
+                            variant="danger"
+                            className="mb-2 mb-md-0"
+                            onClick={() => cancelExam(exam._id)}
+                          >
+                            Cancel Exam
+                          </Button>
+                        )}
+                        {exam.approved !== "approved" &&
+                          exam.approved !== "disapproved" && (
+                            <>
+                              <Button
+                                variant="info"
+                                className="mb-2 mb-md-0 mx-md-2"
+                                onClick={() => viewExam(exam)}
+                              >
+                                View Exam
+                              </Button>
+                              <Button
+                                variant="success"
+                                className="mb-2 mb-md-0 mx-md-2"
+                                onClick={() => approveExam(exam._id)}
+                              >
+                                Approve Exam
+                              </Button>
+                              <Button
+                                variant="warning"
+                                className="mb-2 mb-md-0"
+                                onClick={() => disapproveExam(exam._id)}
+                              >
+                                Disapprove Exam
+                              </Button>
+                            </>
+                          )}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5">No exams available</td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </div>
         <Modal show={showModal} onHide={handleCloseModal}>
           <Modal.Header closeButton>
             <Modal.Title>
@@ -156,7 +161,7 @@ const ExamApprovalComponent = () => {
           </Modal.Header>
           <Modal.Body>
             {selectedExam?.questions?.map((question) => (
-              <div key={question._id}>
+              <div key={question._id} className="mb-3">
                 <p>
                   <strong>Question: </strong>
                   {question.text}

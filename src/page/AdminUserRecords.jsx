@@ -107,95 +107,109 @@ const AdminPage = () => {
   return (
     <Container fluid>
       <Header />
-      <Container className="mt-5 pt-5 mb-5 pb-5">
+      <div className="mt-5 pt-5 mb-5 pb-5 mx-lg-5 mx-md-3 mx-sm-1">
         <h1 className="mb-4 text-center">
           <strong>User Records</strong>
         </h1>
         <h2 className="mb-2">
           <strong>Students</strong>
         </h2>
-        <Table striped bordered hover className="mb-5">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>User Type</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {students.map((student) => (
-              <tr key={student._id}>
-                <td>{student._id}</td>
-                <td>{student.name}</td>
-                <td>{student.userType}</td>
-                <td>
-                  <Button
-                    variant="info"
-                    onClick={() => handleViewDetails(student)}
-                  >
-                    View Details
-                  </Button>{" "}
-                  <Button
-                    variant="warning"
-                    onClick={() => handleViewDetails(student)}
-                  >
-                    Update
-                  </Button>{" "}
-                  <Button
-                    variant="danger"
-                    onClick={() => handleViewDetails(student)}
-                  >
-                    Delete
-                  </Button>
-                </td>
+        <div className="table-responsive mb-5">
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>User Type</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {students.map((student) => (
+                <tr key={student._id}>
+                  <td>{student._id}</td>
+                  <td>{student.name}</td>
+                  <td>{student.userType}</td>
+                  <td>
+                    <div className="d-flex flex-column flex-md-row justify-content-around">
+                      <Button
+                        variant="info"
+                        className="mb-2 mb-md-0"
+                        onClick={() => handleViewDetails(student)}
+                      >
+                        View Details
+                      </Button>
+                      <Button
+                        variant="warning"
+                        className="mb-2 mb-md-0 mx-md-2"
+                        onClick={() => handleViewDetails(student)}
+                      >
+                        Update
+                      </Button>
+                      <Button
+                        variant="danger"
+                        className="mb-2 mb-md-0"
+                        onClick={() => handleDeleteUser(student)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
 
         <h2 className="mb-2">
           <strong>Teachers</strong>
         </h2>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>User Type</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {teachers.map((teacher) => (
-              <tr key={teacher._id}>
-                <td>{teacher._id}</td>
-                <td>{teacher.name}</td>
-                <td>{teacher.userType}</td>
-                <td>
-                  <Button
-                    variant="info"
-                    onClick={() => handleViewDetails(teacher)}
-                  >
-                    View Details
-                  </Button>{" "}
-                  <Button
-                    variant="warning"
-                    onClick={() => handleViewDetails(teacher)}
-                  >
-                    Update
-                  </Button>{" "}
-                  <Button
-                    variant="danger"
-                    onClick={() => handleDeleteUser(teacher)}
-                  >
-                    Delete
-                  </Button>
-                </td>
+        <div className="table-responsive">
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>User Type</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {teachers.map((teacher) => (
+                <tr key={teacher._id}>
+                  <td>{teacher._id}</td>
+                  <td>{teacher.name}</td>
+                  <td>{teacher.userType}</td>
+                  <td>
+                    <div className="d-flex flex-column flex-md-row justify-content-around">
+                      <Button
+                        variant="info"
+                        className="mb-2 mb-md-0"
+                        onClick={() => handleViewDetails(teacher)}
+                      >
+                        View Details
+                      </Button>
+                      <Button
+                        variant="warning"
+                        className="mb-2 mb-md-0 mx-md-2"
+                        onClick={() => handleViewDetails(teacher)}
+                      >
+                        Update
+                      </Button>
+                      <Button
+                        variant="danger"
+                        className="mb-2 mb-md-0"
+                        onClick={() => handleDeleteUser(teacher)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
 
         {/* Modal for viewing/updating user details */}
         <Modal show={showModal} onHide={handleCloseModal}>
@@ -258,12 +272,15 @@ const AdminPage = () => {
             <Button variant="primary" onClick={handleUpdateUser}>
               Update User
             </Button>
-            <Button variant="danger" onClick={handleDeleteUser}>
+            <Button
+              variant="danger"
+              onClick={() => handleDeleteUser(selectedUser)}
+            >
               Delete User
             </Button>
           </Modal.Footer>
         </Modal>
-      </Container>
+      </div>
       <Footer />
     </Container>
   );

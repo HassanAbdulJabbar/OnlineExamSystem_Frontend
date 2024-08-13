@@ -84,52 +84,53 @@ const ActiveExamsTable = () => {
     <>
       <Container fluid>
         <Header />
-        <Container className="mt-5 p-5 mb-5 pb-5">
+        <div className="mt-5 pt-5 mb-5 pb-5 mx-lg-5 mx-md-3 mx-sm-2">
           <h1 className="mb-3 text-center">Active Exams</h1>
           <br />
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Start Date</th>
-                <th>Expiry Date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.isArray(exams) && exams.length > 0 ? (
-                exams.map((exam) => (
-                  <tr key={exam._id}>
-                    <td>{exam.title}</td>
-                    <td>{new Date(exam.startDateTime).toLocaleString()}</td>
-                    <td>{new Date(exam.expiryDateTime).toLocaleString()}</td>
-                    <td>
-                      <Button
-                        className="mx-3"
-                        variant="info"
-                        onClick={() => handleViewExam(exam._id)}
-                      >
-                        View Exam
-                      </Button>
-                      {"   "}
-                      <Button
-                        variant="danger"
-                        onClick={() =>
-                          handleRemoveExam(exam._id /* questionId */)
-                        }
-                      >
-                        Remove Exam
-                      </Button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
+          <div className="table-responsive">
+            <Table striped bordered hover>
+              <thead>
                 <tr>
-                  <td colSpan="4">No exams available</td>
+                  <th>Title</th>
+                  <th>Start Date</th>
+                  <th>Expiry Date</th>
+                  <th>Action</th>
                 </tr>
-              )}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {Array.isArray(exams) && exams.length > 0 ? (
+                  exams.map((exam) => (
+                    <tr key={exam._id}>
+                      <td>{exam.title}</td>
+                      <td>{new Date(exam.startDateTime).toLocaleString()}</td>
+                      <td>{new Date(exam.expiryDateTime).toLocaleString()}</td>
+                      <td>
+                        <Button
+                          className="mx-3 my-1"
+                          variant="info"
+                          onClick={() => handleViewExam(exam._id)}
+                        >
+                          View Exam
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() =>
+                            handleRemoveExam(exam._id /* questionId */)
+                          }
+                        >
+                          Remove Exam
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4">No exams available</td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
+          </div>
           <Modal show={showExamModal} onHide={handleCloseExamModal}>
             <Modal.Header closeButton>
               <Modal.Title>Exam Details</Modal.Title>
@@ -148,11 +149,11 @@ const ActiveExamsTable = () => {
                     <strong>Expiry Date:</strong>{" "}
                     {new Date(selectedExam.expiryDateTime).toLocaleString()}
                   </p>
-                  <h6 style={{ marginTop: "20px", marginBottom: "10px" }}>
+                  <h6 className="mt-3 mb-2">
                     <strong>Questions:</strong>
                   </h6>
                   {selectedExam.questions.map((question, index) => (
-                    <div key={question._id} style={{ marginBottom: "15px" }}>
+                    <div key={question._id} className="mb-3">
                       <p>
                         <strong>Question {index + 1}:</strong> {question.text}
                       </p>
@@ -163,7 +164,7 @@ const ActiveExamsTable = () => {
                         <strong>Correct Answer:</strong>{" "}
                         {question.correctAnswer}
                       </p>
-                      <hr style={{ marginTop: "10px", marginBottom: "5px" }} />
+                      <hr className="my-2" />
                     </div>
                   ))}
                 </div>
@@ -204,7 +205,7 @@ const ActiveExamsTable = () => {
               </Button>
             </Modal.Footer>
           </Modal>
-        </Container>
+        </div>
         <Footer />
       </Container>
     </>

@@ -66,51 +66,53 @@ const ApprovalList = () => {
     <>
       <Container fluid>
         <Header />
-        <Container className="mt-5 p-5 mb-5 pb-5">
+        <div className="mt-5 pt-5 mb-5 pb-5 mx-lg-5 mx-md-3 mx-sm-1">
           <h1 className="mb-2 text-center">
             <strong>Active Exams</strong>
           </h1>
           <br />
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Approval Status</th>
-                <th>Exam ID</th>
-                <th>Approval Date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.isArray(exams) && exams.length > 0 ? (
-                exams.map((exam) => (
-                  <tr key={exam._id}>
-                    <td>{exam.approved}</td>
-                    <td>{exam.exam}</td>
-                    <td>{new Date(exam.approvalDate).toLocaleString()}</td>
-                    {exam.approved === "Disapproved" && (
-                      <td>
-                        <Button
-                          variant="warning"
-                          onClick={() => handleShowEditModal(exam)}
-                        >
-                          Edit Exam
-                        </Button>
-                      </td>
-                    )}
-                  </tr>
-                ))
-              ) : (
+          <div className="table-responsive">
+            <Table striped bordered hover>
+              <thead>
                 <tr>
-                  <td colSpan="4">No exams available</td>
+                  <th>Approval Status</th>
+                  <th>Exam ID</th>
+                  <th>Approval Date</th>
+                  <th>Action</th>
                 </tr>
-              )}
-            </tbody>
-          </Table>
-        </Container>
+              </thead>
+              <tbody>
+                {Array.isArray(exams) && exams.length > 0 ? (
+                  exams.map((exam) => (
+                    <tr key={exam._id}>
+                      <td>{exam.approved}</td>
+                      <td>{exam.exam}</td>
+                      <td>{new Date(exam.approvalDate).toLocaleString()}</td>
+                      {exam.approved === "Disapproved" && (
+                        <td>
+                          <Button
+                            className="my-1"
+                            variant="warning"
+                            onClick={() => handleShowEditModal(exam)}
+                          >
+                            Edit Exam
+                          </Button>
+                        </td>
+                      )}
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4">No exams available</td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
+          </div>
+        </div>
         <Footer />
       </Container>
 
-      {/* Edit Exam Modal */}
       <Modal show={showEditModal} onHide={handleCloseEditModal}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Exam</Modal.Title>

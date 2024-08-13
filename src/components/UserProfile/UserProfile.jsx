@@ -35,25 +35,36 @@ const UserProfile = () => {
   });
 
   return (
-    <Container fluid style={{ height: "100vh" }}>
+    <Container fluid>
       <Header />
-      <Container className="mt-5 pt-5 mb-5 pt-5">
-        <h2 className="mb-4">
+      <Container className="mt-5 pt-5 mb-5 pb-5">
+        <h2 className="mb-4 text-center">
           <strong>User Profile</strong>
         </h2>
-        <Card style={{ width: "75%", backgroundColor: "skyblue" }}>
+        <Card
+          className="mx-auto p-3"
+          style={{
+            maxWidth: "600px",
+            backgroundColor: "#e3f2fd",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          }}
+        >
           <Card.Body>
             {user && (
-              <Row>
-                <Col md={4}>
+              <Row className="align-items-center">
+                <Col xs={12} md={4} className="text-center mb-3 mb-md-0">
                   <img
                     src={user.profilePicture ? user.profilePicture : null}
                     alt="ProfilePicture"
                     className="img-fluid rounded-circle"
-                    style={{ height: "180px", width: "180px" }}
+                    style={{
+                      height: "150px",
+                      width: "150px",
+                      objectFit: "cover",
+                    }}
                   />
                 </Col>
-                <Col md={8}>
+                <Col xs={12} md={8}>
                   <h5 className="mb-3">
                     <strong>Name:</strong> {user.name}
                   </h5>

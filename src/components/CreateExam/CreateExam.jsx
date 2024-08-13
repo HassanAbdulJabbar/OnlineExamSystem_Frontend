@@ -5,10 +5,9 @@ import { Button, Container, Form } from "react-bootstrap";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { endpoints } from "../../endpoints";
+import "./CreateExam.css";
 
 const CreateExam = () => {
-  const [questionType, setQuestionType] = useState("multipleChoice");
-
   const [exam, setExam] = useState({
     title: "",
     startDateTime: "",
@@ -306,27 +305,30 @@ const CreateExam = () => {
               </Form.Group>
             </div>
           ))}
-          <Button
-            variant="primary"
-            onClick={() => handleAddQuestion("multipleChoice")}
-          >
-            Add Multiple Choice Question
-          </Button>
-          {"  "}
-          <Button
-            variant="primary"
-            onClick={() => handleAddQuestion("textBased")}
-          >
-            Add Text-based Question
-          </Button>
-          <Button
-            variant="success"
-            onClick={handleCreateExam}
-            style={{ float: "right" }}
-            disabled={!isValid}
-          >
-            Create Exam
-          </Button>
+          <div className="d-flex flex-column flex-md-row justify-content-around">
+            <Button
+              variant="primary"
+              className="create-exam-buttons"
+              onClick={() => handleAddQuestion("multipleChoice")}
+            >
+              Add Multiple Choice Question
+            </Button>
+            {"  "}
+            <Button
+              variant="primary"
+              onClick={() => handleAddQuestion("textBased")}
+            >
+              Add Text-based Question
+            </Button>
+            <Button
+              variant="success"
+              onClick={handleCreateExam}
+              style={{ float: "right" }}
+              disabled={!isValid}
+            >
+              Create Exam
+            </Button>
+          </div>
         </Form>
       </Container>
       <Footer />

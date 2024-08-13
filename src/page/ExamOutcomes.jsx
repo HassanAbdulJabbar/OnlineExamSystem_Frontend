@@ -52,28 +52,30 @@ const ExamDetails = () => {
         <h2 className="mb-4 text-center">
           <strong>Student Exam History</strong>
         </h2>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Status</th>
-              <th>Candidate ID</th>
-              <th>Exam ID</th>
-              {/* <th>Answers</th> */}
-              <th>Submission Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {examData.map((answer) => (
-              <tr key={answer._id}>
-                <td>{answer.status}</td>
-                <td>{answer.candidate}</td>
-                <td>{answer.exam}</td>
-                {/* <td>{answer.answers.join(", ")}</td> */}
-                <td>{new Date(answer.submittedAt).toLocaleString()}</td>
+        <div className="table-responsive">
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Candidate ID</th>
+                <th>Exam ID</th>
+                {/* <th>Answers</th> */}
+                <th>Submission Date</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {examData.map((answer) => (
+                <tr key={answer._id}>
+                  <td>{answer.status}</td>
+                  <td>{answer.candidate}</td>
+                  <td>{answer.exam}</td>
+                  {/* <td>{answer.answers.join(", ")}</td> */}
+                  <td>{new Date(answer.submittedAt).toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
       </Container>
       <Footer />
     </Container>

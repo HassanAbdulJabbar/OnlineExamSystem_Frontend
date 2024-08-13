@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
+import "./Header.css";
 
 const Header = () => {
   const UserRole = localStorage.getItem("userType");
@@ -10,7 +11,7 @@ const Header = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand href="/" className="ms-5">
+        <Navbar.Brand href="/">
           <b>LookScout</b>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -18,22 +19,28 @@ const Header = () => {
           <Nav className="me-auto">
             {UserRole === "admin" && (
               <>
-                <Nav.Link
-                  href="/admin"
-                  style={{ color: "white", marginLeft: "80px" }}
-                >
+                <Nav.Link href="/admin" className="header-typography-style">
                   Add Users
                 </Nav.Link>
-                <Nav.Link href="/examapproval" style={{ color: "white" }}>
+                <Nav.Link
+                  href="/examapproval"
+                  className="header-typography-style"
+                >
                   Approve Exams
                 </Nav.Link>
-                <Nav.Link href="/users" style={{ color: "white" }}>
+                <Nav.Link href="/users" className="header-typography-style">
                   Current Users
                 </Nav.Link>
-                <Nav.Link href="/examoutcomes" style={{ color: "white" }}>
+                <Nav.Link
+                  href="/examoutcomes"
+                  className="header-typography-style"
+                >
                   Student's exam outcomes
                 </Nav.Link>
-                <Nav.Link href="/emailinvites" style={{ color: "white" }}>
+                <Nav.Link
+                  href="/emailinvites"
+                  className="header-typography-style"
+                >
                   Email Invites
                 </Nav.Link>
               </>
@@ -41,15 +48,18 @@ const Header = () => {
 
             {UserRole === "Teacher" && (
               <>
-                <Nav.Link href="/examslist" style={{ color: "white" }}>
+                <Nav.Link href="/examslist" className="header-typography-style">
                   Active Exams
                 </Nav.Link>
-                <Nav.Link href="/approvalslist" style={{ color: "white" }}>
+                <Nav.Link
+                  href="/approvalslist"
+                  className="header-typography-style"
+                >
                   Exam Approval Status
                 </Nav.Link>
                 <Nav.Link
                   href="/teacher/create-exam"
-                  style={{ color: "white" }}
+                  className="header-typography-style"
                 >
                   Create Exam
                 </Nav.Link>
@@ -58,10 +68,10 @@ const Header = () => {
 
             {UserRole === "Student" && (
               <>
-                <Nav.Link href="/examList" style={{ color: "white" }}>
+                <Nav.Link href="/examList" className="header-typography-style">
                   Active Exams
                 </Nav.Link>
-                <Nav.Link href="/profile" style={{ color: "white" }}>
+                <Nav.Link href="/profile" className="header-typography-style">
                   Student Profile
                 </Nav.Link>
               </>

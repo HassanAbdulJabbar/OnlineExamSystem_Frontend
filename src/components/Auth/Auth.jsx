@@ -62,9 +62,9 @@ const Auth = () => {
         setTimeout(() => {
           setSignupSuccess(false);
 
-          setLogin(true); // Switch to the login view
-          navigate("/login"); // Redirect to login page
-        }, 2000); // Redirect after a delay (adjust as needed)
+          setLogin(true);
+          navigate("/login");
+        }, 2000);
       }
 
       setEmailError("");
@@ -82,12 +82,9 @@ const Auth = () => {
 
   return (
     <div className="login-background">
-      <div className="inner-div row">
-        <div className="col-7 left-side mt-1 mx-4"></div>
-        <div
-          className="col-5"
-          style={{ backgroundColor: "skyblue", borderRadius: "30px" }}
-        >
+      <div className="inner-div">
+        <div className="left-side mt-1"></div>
+        <div className="right-side">
           {login ? (
             <form className="login-form" onSubmit={handleSubmit(submit)}>
               <h1 className="mb-3 header">Sign In</h1>
@@ -105,7 +102,6 @@ const Auth = () => {
                 type="email"
                 placeholder="Email"
                 className="mt-5 text-fields"
-                style={{ borderRadius: "30px", border: "none" }}
                 {...register("email", {
                   required: "Email is required",
                 })}
@@ -117,7 +113,6 @@ const Auth = () => {
                 type="password"
                 placeholder="Password"
                 className="mt-2 text-fields"
-                style={{ borderRadius: "30px", border: "none" }}
                 {...register("password", {
                   required: "Password is required",
                 })}
@@ -149,7 +144,6 @@ const Auth = () => {
                 type="text"
                 placeholder="Name"
                 className="mt-4 text-fields"
-                style={{ borderRadius: "30px", border: "none" }}
                 {...register("name", {
                   required: "Name is required",
                 })}
@@ -161,7 +155,6 @@ const Auth = () => {
                 type="email"
                 placeholder="Email"
                 className="mt-2 text-fields"
-                style={{ borderRadius: "30px", border: "none" }}
                 {...register("email", {
                   required: "Email is required",
                 })}
@@ -174,7 +167,6 @@ const Auth = () => {
                 type="password"
                 placeholder="Password"
                 className="mt-2 text-fields"
-                style={{ borderRadius: "30px", border: "none" }}
                 {...register("password", {
                   required: "Password is required",
                 })}
@@ -186,7 +178,6 @@ const Auth = () => {
                 type="password"
                 placeholder="Confirm Password"
                 className="mt-2 text-fields"
-                style={{ borderRadius: "30px", border: "none" }}
                 {...register("confirmPassword", {
                   required: "",
                 })}
