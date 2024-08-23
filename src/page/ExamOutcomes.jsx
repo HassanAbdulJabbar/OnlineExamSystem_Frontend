@@ -46,7 +46,7 @@ const ExamDetails = () => {
   }, []);
 
   return (
-    <Container fluid>
+    <>
       <Header />
       <Container className="mt-5 pt-5 mb-5 pb-5">
         <h2 className="mb-4 text-center">
@@ -78,7 +78,7 @@ const ExamDetails = () => {
         </div>
       </Container>
       <Footer />
-    </Container>
+    </>
   );
 };
 

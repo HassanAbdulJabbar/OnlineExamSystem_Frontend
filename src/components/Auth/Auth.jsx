@@ -51,9 +51,9 @@ const Auth = () => {
         if (UserRole === "Teacher") {
           navigate("/welcome");
         } else if (UserRole === "Student") {
-          navigate("/welcomee");
+          navigate("/welcome-student");
         } else {
-          navigate("/welcomeee");
+          navigate("/welcome-admin");
         }
       } else {
         reset(initialValue);

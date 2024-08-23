@@ -99,9 +99,7 @@ const ExamComponent = () => {
     determinePassOrFail();
 
     try {
-      const apiUrl = endpoints.exam.userExam;
-
-      const response = await axios.post(apiUrl, {
+      const response = await axios.post(endpoints.exam.userExam, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -163,7 +161,7 @@ const ExamComponent = () => {
   const results = showResults && calculateResults();
 
   return (
-    <Container fluid>
+    <>
       <Header />
 
       {examId && questions.length > 0 && (
@@ -292,7 +290,7 @@ const ExamComponent = () => {
       )}
 
       <Footer />
-    </Container>
+    </>
   );
 };
 

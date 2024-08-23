@@ -23,9 +23,9 @@ export const endpoints = {
       `${BASE_URL}api/admin/disapproveQuestionnaire/${examId}`,
     cancelExams: (examId) => `${BASE_URL}api/admin/cancelExam/${examId}`,
   },
-  userProfile: {
-    currentUser: `${BASE_URL}}api/users`,
-  },
+  // userProfile: {
+  //   currentUser: `${BASE_URL}api/users`,
+  // },
   adminEditApproval: {
     editExamApproval: (editedExamId) =>
       `${BASE_URL}examapprovals/editApproval/${editedExamId}`,

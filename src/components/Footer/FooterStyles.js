@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Box = styled.div`
-  padding: 5% 2.5%;
+  padding: 2% 0.5%;
   background: black;
   font-family: "Inter", sans-serif;
   //   position: absolute;

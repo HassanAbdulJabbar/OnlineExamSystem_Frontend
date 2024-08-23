@@ -48,7 +48,7 @@ const InviteForm = () => {
   };
 
   return (
-    <Container fluid>
+    <>
       <Header />
       <Container className="mt-5 pt-5 mb-5 pb-5">
         <h2 className="mb-3 text-center">
@@ -107,7 +107,7 @@ const InviteForm = () => {
       </Container>
       <Footer />
       <ToastContainer />
-    </Container>
+    </>
   );
 };
 

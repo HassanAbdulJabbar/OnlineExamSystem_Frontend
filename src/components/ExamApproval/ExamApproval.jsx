@@ -5,6 +5,7 @@ import { Button, Container, Modal, Table } from "react-bootstrap";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import { endpoints } from "../../endpoints";
 
 const ExamApprovalComponent = () => {
   const [exams, setExams] = useState([]);
@@ -14,9 +15,7 @@ const ExamApprovalComponent = () => {
   useEffect(() => {
     const fetchExams = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}apii/examslist`
-        );
+        const response = await axios.get(endpoints.examApproval.getExams);
 
         setExams(response.data.exams);
       } catch (error) {
@@ -29,12 +28,8 @@ const ExamApprovalComponent = () => {
 
   const approveExam = async (examId) => {
     try {
-      await axios.put(
-        `${process.env.REACT_APP_BASE_URL}api/admin/approveQuestionnaire/${examId}`
-      );
-      const updatedExams = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}examapprovals/examApprovals`
-      );
+      await axios.put(endpoints.examApproval.approveExams(examId));
+      const updatedExams = await axios.get(endpoints.examApproval.updatedExams);
       setExams(updatedExams.data);
     } catch (error) {
       console.error("Error approving exam:", error);
@@ -43,12 +38,8 @@ const ExamApprovalComponent = () => {
 
   const disapproveExam = async (examId) => {
     try {
-      await axios.put(
-        `${process.env.REACT_APP_BASE_URL}api/admin/disapproveQuestionnaire/${examId}`
-      );
-      const updatedExams = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}apii/examslist`
-      );
+      await axios.put(endpoints.examApproval.disapproveExams(examId));
+      const updatedExams = await axios.get(endpoints.examApproval.getExams);
       setExams(updatedExams.data.exams);
     } catch (error) {
       console.error("Error disapproving exam:", error);
@@ -57,12 +48,8 @@ const ExamApprovalComponent = () => {
 
   const cancelExam = async (examId) => {
     try {
-      await axios.put(
-        `${process.env.REACT_APP_BASE_URL}api/admin/cancelExam/${examId}`
-      );
-      const updatedExams = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}apii/examslist`
-      );
+      await axios.put(endpoints.examApproval.cancelExams(examId));
+      const updatedExams = await axios.get(endpoints.examApproval.getExams);
       setExams(updatedExams.data.exams);
     } catch (error) {
       console.error("Error cancelling exam:", error);
@@ -79,7 +66,7 @@ const ExamApprovalComponent = () => {
   };
 
   return (
-    <Container fluid>
+    <>
       <Header />
       <Container className="mt-5 mb-5 pt-5 pb-5">
         <h1 className="text-center mb-4">
@@ -185,7 +172,7 @@ const ExamApprovalComponent = () => {
         </Modal>
       </Container>
       <Footer />
-    </Container>
+    </>
   );
 };
 

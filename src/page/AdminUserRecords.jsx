@@ -60,19 +60,27 @@ const AdminPage = () => {
       let updateUserEndpoint;
 
       if (selectedUser.userType === "Student") {
-        updateUserEndpoint = endpoints.adminUpdateUsers?.updateStudent;
+        updateUserEndpoint = endpoints.adminUpdateUsers.updateStudent(
+          selectedUser._id
+        );
       } else if (selectedUser.userType === "Teacher") {
-        updateUserEndpoint = endpoints.adminUpdateUsers?.updateTeacher;
+        updateUserEndpoint = endpoints.adminUpdateUsers.updateTeacher(
+          selectedUser._id
+        );
       }
 
-      await Axios.put(endpoints.adminUpdateUsers.updatedUserEndpoint, {
-        name: updateName,
-        password: updatePassword, // Add password to the update request
-        email: updateEmail, // Add email to the update request
-        username: updateUsername, // Add username to the update request
-      });
+      // Pass the `updateUserEndpoint` to the `updatedUserEndpoint` function
+      await Axios.put(
+        endpoints.adminUpdateUsers.updatedUserEndpoint(updateUserEndpoint),
+        {
+          name: updateName,
+          password: updatePassword,
+          email: updateEmail,
+          username: updateUsername,
+        }
+      );
 
-      fetchUsers(); // Refresh the user list after updating
+      fetchUsers();
       handleCloseModal();
     } catch (error) {
       console.error("Error updating user:", error);
@@ -82,7 +90,6 @@ const AdminPage = () => {
   const handleDeleteUser = async () => {
     try {
       if (!selectedUser) {
-        // Handle the case where selectedUser is null
         console.error("Selected user is null.");
         handleCloseModal();
         return;
@@ -91,13 +98,22 @@ const AdminPage = () => {
       let deleteUserEndpoint;
 
       if (selectedUser.userType === "Student") {
-        deleteUserEndpoint = endpoints.adminDeleteUsers.deleteStudent;
+        deleteUserEndpoint = endpoints.adminDeleteUsers.deleteStudent(
+          selectedUser._id
+        );
       } else if (selectedUser.userType === "Teacher") {
-        deleteUserEndpoint = endpoints.adminDeleteUsers.deleteTeacher;
+        deleteUserEndpoint = endpoints.adminDeleteUsers.deleteTeacher(
+          selectedUser._id
+        );
       }
 
-      await Axios.delete(endpoints.adminDeleteUsers.DeleteUserEndpoint);
-      fetchUsers(); // Refresh the user list after deleting
+      // Pass the `deleteUserEndpoint` to the `DeleteUserEndpoint` function
+      await Axios.delete(
+        endpoints.adminDeleteUsers.DeleteUserEndpoint(deleteUserEndpoint)
+      );
+
+      // Make API call again to update the list of users after deletion
+      fetchUsers();
       handleCloseModal();
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -105,7 +121,7 @@ const AdminPage = () => {
   };
 
   return (
-    <Container fluid>
+    <>
       <Header />
       <div className="mt-5 pt-5 mb-5 pb-5 mx-lg-5 mx-md-3 mx-sm-1">
         <h1 className="mb-4 text-center">
@@ -149,7 +165,7 @@ const AdminPage = () => {
                       <Button
                         variant="danger"
                         className="mb-2 mb-md-0"
-                        onClick={() => handleDeleteUser(student)}
+                        onClick={() => handleDeleteUser(student._id)}
                       >
                         Delete
                       </Button>
@@ -199,7 +215,7 @@ const AdminPage = () => {
                       <Button
                         variant="danger"
                         className="mb-2 mb-md-0"
-                        onClick={() => handleDeleteUser(teacher)}
+                        onClick={() => handleDeleteUser(teacher._id)}
                       >
                         Delete
                       </Button>
@@ -222,7 +238,6 @@ const AdminPage = () => {
                 <p>ID: {selectedUser._id}</p>
                 <p>Name: {selectedUser.name}</p>
                 <p>User Type: {selectedUser.userType}</p>
-                {/* Add other details as needed */}
               </div>
             )}
             <Form>
@@ -282,7 +297,7 @@ const AdminPage = () => {
         </Modal>
       </div>
       <Footer />
-    </Container>
+    </>
   );
 };
 
