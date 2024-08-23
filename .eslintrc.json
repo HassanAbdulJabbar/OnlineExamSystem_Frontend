@@ -26,8 +26,8 @@
       },
       "rules": {
         "react/prop-types": "off",
-        "react/jsx-uses-react": "off", // Not needed with React 17+
-        "react/react-in-jsx-scope": "off", // Not needed with React 17+
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off",
         "react/jsx-boolean-value": ["error", "always"],
         "react/jsx-curly-brace-presence": [
           "error",
