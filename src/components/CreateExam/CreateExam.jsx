@@ -6,6 +6,7 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { endpoints } from "../../endpoints";
 import "./CreateExam.css";
+import axios from "axios";
 
 const CreateExam = () => {
   const [exam, setExam] = useState({
@@ -123,15 +124,15 @@ const CreateExam = () => {
       };
       console.log("examWithMarks", examWithMarks);
 
-      const apiUrl = endpoints.createExam.newExam;
-
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(examWithMarks), // Use the modified exam object with marks
-      });
+      const response = await axios.post(
+        endpoints.createExam.newExam,
+        examWithMarks,
+        {
+          headers: {
+            "content-type": "application/json",
+          },
+        }
+      );
 
       if (response.ok) {
         console.log("Exam created successfully!");
@@ -147,7 +148,7 @@ const CreateExam = () => {
   };
 
   return (
-    <Container fluid>
+    <>
       <Header />
       <Container className="mt-5 mb-5 pt-5 pb-5">
         <h2 className="mb-5 text-center">
@@ -332,7 +333,7 @@ const CreateExam = () => {
         </Form>
       </Container>
       <Footer />
-    </Container>
+    </>
   );
 };
 

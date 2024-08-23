@@ -82,7 +82,7 @@ const ActiveExamsTable = () => {
 
   return (
     <>
-      <Container fluid>
+      <>
         <Header />
         <div className="mt-5 pt-5 mb-5 pb-5 mx-lg-5 mx-md-3 mx-sm-2">
           <h1 className="mb-3 text-center">Active Exams</h1>
@@ -207,7 +207,7 @@ const ActiveExamsTable = () => {
           </Modal>
         </div>
         <Footer />
-      </Container>
+      </>
     </>
   );
 };

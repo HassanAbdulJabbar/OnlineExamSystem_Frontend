@@ -25,7 +25,7 @@ const Timer = ({ onTimeout }) => {
   };
 
   return (
-    <Container fluid>
+    <>
       <div
         className="text-center"
         style={{
@@ -36,7 +36,7 @@ const Timer = ({ onTimeout }) => {
       >
         {formatTime(seconds)}
       </div>
-    </Container>
+    </>
   );
 };
 

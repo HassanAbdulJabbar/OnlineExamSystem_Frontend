@@ -79,7 +79,7 @@ const App = () => {
           }
         />
         <Route
-          path="/welcomeee"
+          path="/welcome-admin"
           element={
             <ProtectedRoute
               Component={WelcomeComponent}
@@ -89,7 +89,7 @@ const App = () => {
           }
         />
         <Route
-          path="/welcome"
+          path="/welcome-teacher"
           element={
             <ProtectedRoute
               Component={WelcomeComponent}
@@ -99,7 +99,7 @@ const App = () => {
           }
         />
         <Route
-          path="/welcomee"
+          path="/welcome-student"
           element={
             <ProtectedRoute
               Component={WelcomeComponent}

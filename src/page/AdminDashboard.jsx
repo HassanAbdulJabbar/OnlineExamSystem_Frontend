@@ -64,7 +64,7 @@ const ApprovalList = () => {
 
   return (
     <>
-      <Container fluid>
+      <>
         <Header />
         <div className="mt-5 pt-5 mb-5 pb-5 mx-lg-5 mx-md-3 mx-sm-1">
           <h1 className="mb-2 text-center">
@@ -111,7 +111,7 @@ const ApprovalList = () => {
           </div>
         </div>
         <Footer />
-      </Container>
+      </>
 
       <Modal show={showEditModal} onHide={handleCloseEditModal}>
         <Modal.Header closeButton>

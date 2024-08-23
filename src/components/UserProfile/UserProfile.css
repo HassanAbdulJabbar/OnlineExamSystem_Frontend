@@ -1,0 +1,10 @@
+.profile-card {
+  max-width: 600px;
+  background-color: #e3f2fd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.card-image {
+  height: 150px;
+  width: 150px;
+  object-fit: cover;
+}

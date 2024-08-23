@@ -26,7 +26,7 @@ const AdminExamDetails = () => {
   };
 
   return (
-    <Container fluid>
+    <>
       <Header />
       <Container>
         <Row>
@@ -45,7 +45,7 @@ const AdminExamDetails = () => {
         </Row>
       </Container>
       <Footer />
-    </Container>
+    </>
   );
 };
 

@@ -1,0 +1,12 @@
+.footer-header {
+  font-family: cursive;
+  color: green;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+.footer-subheader {
+  color: green !important;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}

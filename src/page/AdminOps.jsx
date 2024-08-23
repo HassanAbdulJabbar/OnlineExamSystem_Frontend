@@ -55,7 +55,7 @@ const AdminPage = () => {
   };
 
   return (
-    <Container fluid>
+    <>
       <Header />
       <Container className="mt-t pt-5">
         <Row>
@@ -161,7 +161,7 @@ const AdminPage = () => {
         </Row>
       </Container>
       <Footer />
-    </Container>
+    </>
   );
 };
 

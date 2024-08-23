@@ -1,36 +1,59 @@
 import React from "react";
 
 import { Container, Row, Col } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { endpoints } from "../../endpoints";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 
 const WelcomeComponent = () => {
+  const [user, setUser] = useState(null);
+
   const UserRole = localStorage.getItem("userType");
+  const userId = localStorage.getItem("id");
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axios.get(endpoints.adminAddUsers.getAllUsers);
+
+      const loggedUser = response.data.filter((user) => user._id === userId);
+      setUser(loggedUser[0]);
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserProfile();
+  });
 
   return (
-    <Container fluid style={{ height: "100vh" }}>
+    <>
       <Header />
       <Container className="mt-4">
         <Row>
           <Col className="text-center mt-5 pt-5 mb-5 pt-5">
-            <h1>Welcome to LookScout Examination Application!</h1>
-            <br />
-            {UserRole === "admin" ? (
-              <h3>
-                Hello Admin! You have access to administrative features and
-                controls.
-              </h3>
-            ) : (
-              <h3>
-                Hello {UserRole}! Welcome to Lookscout Examination Systems.
-              </h3>
+            {user && (
+              <>
+                <h1>
+                  Hello {user?.name}! Welcome to Dev Geeks Examination
+                  Application!
+                </h1>
+                <br />
+                <h5>
+                  As {UserRole}, you can proceed by clicking options prensent in
+                  the header.
+                </h5>
+                <br />
+              </>
             )}
           </Col>
         </Row>
       </Container>
       <Footer />
-    </Container>
+    </>
   );
 };
 
