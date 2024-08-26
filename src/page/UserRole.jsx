@@ -8,7 +8,7 @@ const UserRole = () => {
     <div className="login-background">
       <div className="row justify-content-center">
         <h1
-          className="text-center mb-5"
+          className="text-center mb-5 user-role"
           style={{ color: "darkblue", fontSize: "50px" }}
         >
           <strong>What is your role?</strong>

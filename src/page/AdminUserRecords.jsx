@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 
-import { Button, Container, Form, Modal, Table } from "react-bootstrap";
+import { Button, Form, Modal, Table } from "react-bootstrap";
 
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
-import { endpoints } from "../endpoints";
+import { endpoints } from "../endpoints/endpoints";
 
 const AdminPage = () => {
   const [students, setStudents] = useState([]);
@@ -25,7 +25,6 @@ const AdminPage = () => {
     try {
       const response = await Axios.get(endpoints.adminAddUsers.getAllUsers);
 
-      // Separate students and teachers based on userType
       const studentData = response.data.filter(
         (user) => user.userType === "Student"
       );
@@ -35,7 +34,6 @@ const AdminPage = () => {
 
       setStudents(studentData);
       setTeachers(teacherData);
-      // setAdmin(adminData);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -69,7 +67,6 @@ const AdminPage = () => {
         );
       }
 
-      // Pass the `updateUserEndpoint` to the `updatedUserEndpoint` function
       await Axios.put(
         endpoints.adminUpdateUsers.updatedUserEndpoint(updateUserEndpoint),
         {
@@ -107,7 +104,6 @@ const AdminPage = () => {
         );
       }
 
-      // Pass the `deleteUserEndpoint` to the `DeleteUserEndpoint` function
       await Axios.delete(
         endpoints.adminDeleteUsers.DeleteUserEndpoint(deleteUserEndpoint)
       );

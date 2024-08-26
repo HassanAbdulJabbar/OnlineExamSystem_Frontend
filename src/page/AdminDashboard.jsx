@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Table, Container, Button, Modal, Form } from "react-bootstrap";
+import { Table, Button, Modal } from "react-bootstrap";
+
 import axios from "axios";
+
+import { endpoints } from "../endpoints/endpoints";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 
@@ -9,15 +12,11 @@ const ApprovalList = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedExam, setEditedExam] = useState(null);
   const [editedApprovalStatus, setEditedApprovalStatus] = useState("");
-  const baseURL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     const fetchExams = async () => {
       try {
-        const response = await axios.get(
-          `${baseURL}examapprovals/examApprovals`
-        );
-        console.log(response.data);
+        const response = await axios.get(endpoints.examApproval.updatedExams);
         setExams(response.data);
       } catch (error) {
         console.error("Error fetching exams:", error);
@@ -25,7 +24,7 @@ const ApprovalList = () => {
     };
 
     fetchExams();
-  }, [baseURL]);
+  });
 
   const handleShowEditModal = (exam) => {
     setEditedExam(exam);
@@ -40,13 +39,12 @@ const ApprovalList = () => {
   const handleEditApproval = async () => {
     try {
       await axios.put(
-        `${baseURL}examapprovals/editApproval/${editedExam._id}`,
+        endpoints.adminEditApproval.editExamApproval(editedExam._id),
         {
           approved: editedApprovalStatus,
         }
       );
 
-      // Update the local state to reflect the change
       setExams((prevExams) =>
         prevExams.map((exam) =>
           exam._id === editedExam._id
@@ -55,7 +53,6 @@ const ApprovalList = () => {
         )
       );
 
-      // Close the edit modal
       setShowEditModal(false);
     } catch (error) {
       console.error("Error editing approval:", error);

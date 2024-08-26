@@ -3,7 +3,7 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { endpoints } from "../../endpoints";
+import { endpoints } from "../../endpoints/endpoints";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";

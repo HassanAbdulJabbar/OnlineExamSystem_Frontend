@@ -4,7 +4,7 @@ import { Button, Container, Form } from "react-bootstrap";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { endpoints } from "../../endpoints";
+import { endpoints } from "../../endpoints/endpoints";
 import "./CreateExam.css";
 import axios from "axios";
 
@@ -322,9 +322,9 @@ const CreateExam = () => {
               Add Text-based Question
             </Button>
             <Button
+              className="create-exam-button"
               variant="success"
               onClick={handleCreateExam}
-              style={{ float: "right" }}
               disabled={!isValid}
             >
               Create Exam

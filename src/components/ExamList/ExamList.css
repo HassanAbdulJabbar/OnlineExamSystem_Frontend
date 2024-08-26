@@ -1,0 +1,7 @@
+.exam-btn {
+  float: right;
+}
+.exam-list-container {
+  display: flex;
+  flex-direction: column;
+}
