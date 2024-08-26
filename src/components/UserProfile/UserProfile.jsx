@@ -5,7 +5,7 @@ import { Card, Container, Col, Row } from "react-bootstrap";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { endpoints } from "../../endpoints";
+import { endpoints } from "../../endpoints/endpoints";
 import "./UserProfile.css";
 
 const UserProfile = () => {

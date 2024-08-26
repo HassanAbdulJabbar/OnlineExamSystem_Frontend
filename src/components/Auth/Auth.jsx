@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-bootstrap";
 
-import { endpoints } from "../../endpoints";
+import { endpoints } from "../../endpoints/endpoints";
 import "./Auth.css";
 
 const initialValue = {
@@ -49,7 +49,7 @@ const Auth = () => {
         localStorage.setItem("token", response.data.token);
 
         if (UserRole === "Teacher") {
-          navigate("/welcome");
+          navigate("/welcome-teacher");
         } else if (UserRole === "Student") {
           navigate("/welcome-student");
         } else {

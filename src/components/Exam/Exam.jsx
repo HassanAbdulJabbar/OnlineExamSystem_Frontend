@@ -15,7 +15,7 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Timer from "../Timer/Timer";
 import ExamContext from "../../context/ExamContext"; // Update the path accordingly
-import { endpoints } from "../../endpoints";
+import { endpoints } from "../../endpoints/endpoints";
 import axios from "axios";
 
 const ExamComponent = () => {
@@ -229,7 +229,7 @@ const ExamComponent = () => {
               </Container>
             </Container>
           ) : (
-            <Card className="mb-5" style={{ height: "40vh" }}>
+            <Card className="mb-5 next-question">
               <Card.Body>
                 <Card.Title>
                   {approvedExams[currentExamIndex]?.title}

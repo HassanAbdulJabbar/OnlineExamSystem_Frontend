@@ -7,7 +7,8 @@ import { Button, Container, Form } from "react-bootstrap";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { endpoints } from "../../endpoints";
+import { endpoints } from "../../endpoints/endpoints";
+import "./EmailControl.css";
 
 const InviteForm = () => {
   const [inviteData, setInviteData] = useState({
@@ -96,8 +97,7 @@ const InviteForm = () => {
           </Form.Group>
 
           <Button
-            style={{ float: "right" }}
-            className="mt-3"
+            className="mt-3 submit-invite"
             variant="primary"
             onClick={handleSendInvite}
           >

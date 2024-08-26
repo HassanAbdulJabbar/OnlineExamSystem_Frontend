@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Container, Table } from "react-bootstrap";
+
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
-import { endpoints } from "../endpoints";
+import { endpoints } from "../endpoints/endpoints";
 
 const ExamDetails = () => {
   const [examData, setExamData] = useState([]);
 
   useEffect(() => {
-    // Fetch data from taken exam API
     const fetchData = async () => {
       try {
         const examResponse = await fetch(endpoints.examOutcomes.examResult);
@@ -21,7 +21,6 @@ const ExamDetails = () => {
 
         const { answers } = await examResponse.json();
 
-        // Filter duplicates based on candidate and exam ID
         const uniqueRecords = answers.reduce((acc, current) => {
           const existingRecord = acc.find(
             (record) =>
@@ -38,7 +37,7 @@ const ExamDetails = () => {
 
         setExamData(uniqueRecords || []);
       } catch (error) {
-        console.error("Error fetching exam data:", error);
+        console.error("Error fetching User's exam data:", error);
       }
     };
 
@@ -59,7 +58,6 @@ const ExamDetails = () => {
                 <th>Status</th>
                 <th>Candidate ID</th>
                 <th>Exam ID</th>
-                {/* <th>Answers</th> */}
                 <th>Submission Date</th>
               </tr>
             </thead>
@@ -69,7 +67,6 @@ const ExamDetails = () => {
                   <td>{answer.status}</td>
                   <td>{answer.candidate}</td>
                   <td>{answer.exam}</td>
-                  {/* <td>{answer.answers.join(", ")}</td> */}
                   <td>{new Date(answer.submittedAt).toLocaleString()}</td>
                 </tr>
               ))}

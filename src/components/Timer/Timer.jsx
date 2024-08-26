@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
+
+import "./Timer.css";
 
 const Timer = ({ onTimeout }) => {
   const [seconds, setSeconds] = useState(20);
@@ -11,7 +12,6 @@ const Timer = ({ onTimeout }) => {
 
     if (seconds === 0) {
       clearInterval(interval);
-      console.log("Time finished.....redirecting you to homepage/...");
       onTimeout();
     }
 
@@ -26,16 +26,7 @@ const Timer = ({ onTimeout }) => {
 
   return (
     <>
-      <div
-        className="text-center"
-        style={{
-          fontSize: "50px",
-          color: "darkblue",
-          justifyContent: "center",
-        }}
-      >
-        {formatTime(seconds)}
-      </div>
+      <div className="text-center timer">{formatTime(seconds)}</div>
     </>
   );
 };

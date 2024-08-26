@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { endpoints } from "../../endpoints";
+import { endpoints } from "../../endpoints/endpoints";
+import "./ExamList.css";
 
 const ExamList = () => {
   const [approvedExams, setApprovedExams] = useState([]);
+  const navigate = useNavigate();
+
+  const onClickStartExam = (examId) => {
+    navigate(`/exam?examId=${examId}`);
+  };
 
   useEffect(() => {
     const fetchApprovedExams = async () => {
@@ -17,32 +23,23 @@ const ExamList = () => {
         const approvalResponse = await axios.get(
           endpoints.examApproval.updatedExams
         );
-
-        // Ensure the response data is an array
         if (!Array.isArray(approvalResponse.data)) {
           return;
         }
 
-        // Filter exams with 'approved' status
         const approvedExamIds = approvalResponse.data
           .filter((approval) => approval.approved === "approved")
           .map((approval) => approval.exam);
 
-        // Fetch exams from the examslist collection based on approved IDs
         const examsResponse = await axios.get(endpoints.examApproval.getExams);
-
-        // Ensure the response data is an array
         if (!Array.isArray(examsResponse.data.exams)) {
           return;
         }
 
-        // Filter exams based on approvedExamIds
         const filteredExams = examsResponse.data.exams.filter((exam) =>
           approvedExamIds.includes(exam._id)
         );
-
         setApprovedExams(filteredExams);
-        // console.log("Approved Exams:", filteredExams);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -80,14 +77,14 @@ const ExamList = () => {
                   <p>
                     <strong>End Date Time:</strong> {exam.expiryDateTime}
                   </p>
-                  <Link to={`/exam?examId=${exam._id}`}>
-                    <Button
-                      variant="btn btn-primary"
-                      style={{ float: "right" }}
-                    >
-                      Start Exam
-                    </Button>{" "}
-                  </Link>
+                  {/* <Link to={`/exam?examId=${exam._id}`}> */}
+                  <Button
+                    variant="btn btn-primary exam-btn"
+                    onClick={() => onClickStartExam(exam._id)}
+                  >
+                    Start Exam
+                  </Button>{" "}
+                  {/* </Link> */}
                 </Card.Body>
               </Card>
             </Col>

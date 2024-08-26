@@ -1,9 +1,12 @@
 // ActiveExamsTable.js
 import React, { useState, useEffect } from "react";
 import { Table, Button, Modal, Container } from "react-bootstrap";
+
 import axios from "axios";
+
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
+import { endpoints } from "../endpoints/endpoints";
 
 const ActiveExamsTable = () => {
   const [exams, setExams] = useState(null);
@@ -15,8 +18,7 @@ const ActiveExamsTable = () => {
   useEffect(() => {
     const fetchExams = async () => {
       try {
-        const response = await axios.get(`${baseURL}apii/examslist`);
-        console.log("API Response:", response.data);
+        const response = await axios.get(endpoints.examApproval.getExams);
         setExams(response.data.exams);
       } catch (error) {
         console.error("Error fetching exams:", error);
@@ -27,8 +29,6 @@ const ActiveExamsTable = () => {
   }, [baseURL]);
 
   const handleViewExam = (examId) => {
-    // You can customize this logic based on your application's needs.
-    // For now, let's just log the selected exam and show a modal.
     const selectedExam = exams.find((exam) => exam._id === examId);
     setSelectedExam(selectedExam);
     setShowExamModal(true);
@@ -36,16 +36,12 @@ const ActiveExamsTable = () => {
 
   const handleRemoveExam = async (examId) => {
     try {
-      // Make an API call to remove the entire exam    x
-      await axios.delete(`${baseURL}apii/exams/:${examId}`);
+      await axios.delete(endpoints.removeExam.deleteExam(examId));
 
-      // Update the local state to reflect the change
       setExams((prevExams) => {
         const updatedExams = prevExams.filter((exam) => exam._id !== examId);
         return updatedExams;
       });
-
-      console.log(`Removed exam from exams with ID ${examId}`);
     } catch (error) {
       console.error("Error removing exam:", error);
     }
@@ -53,16 +49,11 @@ const ActiveExamsTable = () => {
 
   const handleDeleteExam = async (examId) => {
     try {
-      // Make an API call to delete the exam
-      await axios.delete(`${baseURL}apii/exams/${examId}`);
+      await axios.delete(endpoints.removeExam.deleteExam(examId));
 
-      // Update the local state to reflect the removal
       setExams((prevExams) => prevExams.filter((exam) => exam._id !== examId));
 
-      // Close the delete confirmation modal
       setShowDeleteConfirmModal(false);
-
-      console.log(`Deleted exam with ID ${examId}`);
     } catch (error) {
       console.error("Error deleting exam:", error);
     }
@@ -114,9 +105,7 @@ const ActiveExamsTable = () => {
                         </Button>
                         <Button
                           variant="danger"
-                          onClick={() =>
-                            handleRemoveExam(exam._id /* questionId */)
-                          }
+                          onClick={() => handleRemoveExam(exam._id)}
                         >
                           Remove Exam
                         </Button>

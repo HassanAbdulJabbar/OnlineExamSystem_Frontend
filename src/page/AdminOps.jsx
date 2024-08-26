@@ -5,6 +5,8 @@ import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
+import "./../styles/App.css";
+import { endpoints } from "../endpoints/endpoints";
 
 const AdminPage = () => {
   const [name, setName] = useState("");
@@ -13,39 +15,33 @@ const AdminPage = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const [userType, setUserType] = useState("");
   const [showAlert, setShowAlert] = useState(false);
-  const [showEmptyFieldsAlert, setShowEmptyFieldsAlert] = useState(false); // state for empty fields alert
+  const [showEmptyFieldsAlert, setShowEmptyFieldsAlert] = useState(false);
 
   const handleAddUser = async () => {
-    // Check for empty fields
     if (!name || !email || !password || !userType) {
       setShowEmptyFieldsAlert(true);
       return;
     }
 
     try {
-      await Axios.post(
-        `${process.env.REACT_APP_BASE_URL}api/admin/add${userType}`,
-        {
-          name,
-          email,
-          password,
-          userType,
-          imageUrl,
-        }
-      );
+      await Axios.post(endpoints.adminAddUsers.userAdd(userType), {
+        name,
+        email,
+        password,
+        userType,
+        imageUrl,
+      });
 
-      // Show alert for success
       setShowAlert(true);
 
-      // Reset form fields
       setName("");
       setEmail("");
       setPassword("");
       setImageUrl(null);
       setUserType("");
-      setShowEmptyFieldsAlert(false); // Reset empty fields alert
+      setShowEmptyFieldsAlert(false);
     } catch (error) {
-      console.log("Error adding user:", error);
+      console.error("Error adding user:", error);
     }
   };
 
@@ -128,14 +124,12 @@ const AdminPage = () => {
 
               <Button
                 variant="primary"
-                style={{ float: "right" }}
-                className="mt-4 mb-5"
+                className="mt-4 mb-5 align-btn-right"
                 onClick={handleAddUser}
               >
                 Add User
               </Button>
 
-              {/* Display alert when showAlert state is true */}
               {showAlert && (
                 <Alert
                   variant="success"
@@ -146,7 +140,6 @@ const AdminPage = () => {
                 </Alert>
               )}
 
-              {/* Display alert for empty fields when showEmptyFieldsAlert state is true */}
               {showEmptyFieldsAlert && (
                 <Alert
                   variant="danger"

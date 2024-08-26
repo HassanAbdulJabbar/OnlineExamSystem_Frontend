@@ -5,7 +5,7 @@ import { Button, Container, Modal, Table } from "react-bootstrap";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { endpoints } from "../../endpoints";
+import { endpoints } from "../../endpoints/endpoints";
 
 const ExamApprovalComponent = () => {
   const [exams, setExams] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ExamContext from "./ExamContext";
-import { endpoints } from "../endpoints";
+import { endpoints } from "../endpoints/endpoints";
 
 const ExamProvider = ({ children }) => {
   const [approvedExams, setApprovedExams] = useState([]);
@@ -9,32 +9,26 @@ const ExamProvider = ({ children }) => {
   useEffect(() => {
     const fetchApprovedExams = async () => {
       try {
-        // Fetch data from the examApprovals collection
         const approvalResponse = await axios.get(
           endpoints.examApproval.updatedExams
         );
 
-        // Ensure the response data is an array
         if (!Array.isArray(approvalResponse.data)) {
           console.error("Invalid data structure for exam approvals");
           return;
         }
 
-        // Filter exams with 'approved' status
         const approvedExamIds = approvalResponse.data
           .filter((approval) => approval.approved === "approved")
           .map((approval) => approval.exam);
 
-        // Fetch exams from the examslist collection based on approved IDs
         const examsResponse = await axios.get(endpoints.examApproval.getExams);
 
-        // Ensure the response data is an array
         if (!Array.isArray(examsResponse.data.exams)) {
           console.error("Invalid data structure for exams list");
           return;
         }
 
-        // Filter exams based on approvedExamIds
         const filteredExams = examsResponse.data.exams.filter((exam) =>
           approvedExamIds.includes(exam._id)
         );

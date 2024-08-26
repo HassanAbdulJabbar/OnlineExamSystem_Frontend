@@ -1,3 +1,6 @@
 .create-exam-buttons {
   padding-top: 10px;
 }
+.create-exam-button {
+  float: right;
+}
