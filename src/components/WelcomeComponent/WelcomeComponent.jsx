@@ -27,7 +27,7 @@ const WelcomeComponent = () => {
 
   useEffect(() => {
     fetchUserProfile();
-  });
+  }, []);
 
   return (
     <>

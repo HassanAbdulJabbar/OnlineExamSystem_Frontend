@@ -1,6 +1,6 @@
 // ActiveExamsTable.js
 import React, { useState, useEffect } from "react";
-import { Table, Button, Modal, Container } from "react-bootstrap";
+import { Table, Button, Modal } from "react-bootstrap";
 
 import axios from "axios";
 
@@ -13,7 +13,6 @@ const ActiveExamsTable = () => {
   const [selectedExam, setSelectedExam] = useState(null);
   const [showExamModal, setShowExamModal] = useState(false);
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
-  const baseURL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     const fetchExams = async () => {
@@ -26,7 +25,7 @@ const ActiveExamsTable = () => {
     };
 
     fetchExams();
-  }, [baseURL]);
+  }, []);
 
   const handleViewExam = (examId) => {
     const selectedExam = exams.find((exam) => exam._id === examId);

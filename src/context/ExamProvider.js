@@ -2,15 +2,26 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ExamContext from "./ExamContext";
 import { endpoints } from "../endpoints/endpoints";
+import { token } from "../services/userStateService";
 
 const ExamProvider = ({ children }) => {
   const [approvedExams, setApprovedExams] = useState([]);
 
   useEffect(() => {
     const fetchApprovedExams = async () => {
+      if (!token) {
+        console.warn("No token found, skipping API requests.");
+        return;
+      }
+
       try {
         const approvalResponse = await axios.get(
-          endpoints.examApproval.updatedExams
+          endpoints.examApproval.updatedExams,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
         if (!Array.isArray(approvalResponse.data)) {
@@ -22,7 +33,11 @@ const ExamProvider = ({ children }) => {
           .filter((approval) => approval.approved === "approved")
           .map((approval) => approval.exam);
 
-        const examsResponse = await axios.get(endpoints.examApproval.getExams);
+        const examsResponse = await axios.get(endpoints.examApproval.getExams, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!Array.isArray(examsResponse.data.exams)) {
           console.error("Invalid data structure for exams list");

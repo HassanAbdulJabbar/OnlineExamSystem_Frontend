@@ -24,7 +24,7 @@ const ApprovalList = () => {
     };
 
     fetchExams();
-  });
+  }, []);
 
   const handleShowEditModal = (exam) => {
     setEditedExam(exam);

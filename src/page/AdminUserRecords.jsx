@@ -6,6 +6,7 @@ import { Button, Form, Modal, Table } from "react-bootstrap";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import { endpoints } from "../endpoints/endpoints";
+import "../styles/App.css";
 
 const AdminPage = () => {
   const [students, setStudents] = useState([]);
@@ -108,7 +109,6 @@ const AdminPage = () => {
         endpoints.adminDeleteUsers.DeleteUserEndpoint(deleteUserEndpoint)
       );
 
-      // Make API call again to update the list of users after deletion
       fetchUsers();
       handleCloseModal();
     } catch (error) {
@@ -119,14 +119,14 @@ const AdminPage = () => {
   return (
     <>
       <Header />
-      <div className="mt-5 pt-5 mb-5 pb-5 mx-lg-5 mx-md-3 mx-sm-1">
+      <div className="mt-5 pt-5 mb-5 pb-5 mx-lg-5 mx-md-3 mx-sm-1 table-alignment">
         <h1 className="mb-4 text-center">
           <strong>User Records</strong>
         </h1>
         <h2 className="mb-2">
           <strong>Students</strong>
         </h2>
-        <div className="table-responsive mb-5">
+        <div className="table-responsive mb-5 table-width">
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -143,7 +143,7 @@ const AdminPage = () => {
                   <td>{student.name}</td>
                   <td>{student.userType}</td>
                   <td>
-                    <div className="d-flex flex-column flex-md-row justify-content-around">
+                    <div className="d-flex flex-column flex-md-row">
                       <Button
                         variant="info"
                         className="mb-2 mb-md-0"
@@ -158,13 +158,6 @@ const AdminPage = () => {
                       >
                         Update
                       </Button>
-                      <Button
-                        variant="danger"
-                        className="mb-2 mb-md-0"
-                        onClick={() => handleDeleteUser(student._id)}
-                      >
-                        Delete
-                      </Button>
                     </div>
                   </td>
                 </tr>
@@ -176,7 +169,7 @@ const AdminPage = () => {
         <h2 className="mb-2">
           <strong>Teachers</strong>
         </h2>
-        <div className="table-responsive">
+        <div className="table-responsive table-width">
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -193,7 +186,7 @@ const AdminPage = () => {
                   <td>{teacher.name}</td>
                   <td>{teacher.userType}</td>
                   <td>
-                    <div className="d-flex flex-column flex-md-row justify-content-around">
+                    <div className="d-flex flex-column flex-md-row">
                       <Button
                         variant="info"
                         className="mb-2 mb-md-0"
@@ -208,13 +201,6 @@ const AdminPage = () => {
                       >
                         Update
                       </Button>
-                      <Button
-                        variant="danger"
-                        className="mb-2 mb-md-0"
-                        onClick={() => handleDeleteUser(teacher._id)}
-                      >
-                        Delete
-                      </Button>
                     </div>
                   </td>
                 </tr>
@@ -226,19 +212,19 @@ const AdminPage = () => {
         {/* Modal for viewing/updating user details */}
         <Modal show={showModal} onHide={handleCloseModal}>
           <Modal.Header closeButton>
-            <Modal.Title>User Details</Modal.Title>
+            <Modal.Title className="bold">User Details</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {selectedUser && (
               <div>
-                <p>ID: {selectedUser._id}</p>
-                <p>Name: {selectedUser.name}</p>
-                <p>User Type: {selectedUser.userType}</p>
+                <p className="bold">ID: {selectedUser._id}</p>
+                <p className="bold">Name: {selectedUser.name}</p>
+                <p className="bold">User Type: {selectedUser.userType}</p>
               </div>
             )}
             <Form>
               <Form.Group controlId="updateName">
-                <Form.Label>Update Name</Form.Label>
+                <Form.Label className="bold">Update Name</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Enter new name"
@@ -246,9 +232,8 @@ const AdminPage = () => {
                   onChange={(e) => setUpdateName(e.target.value)}
                 />
               </Form.Group>
-              {/* Additional fields for updating password, email, and username */}
               <Form.Group controlId="updatePassword">
-                <Form.Label>Update Password</Form.Label>
+                <Form.Label className="bold">Update Password</Form.Label>
                 <Form.Control
                   type="password"
                   placeholder="Enter new password"
@@ -257,7 +242,7 @@ const AdminPage = () => {
                 />
               </Form.Group>
               <Form.Group controlId="updateEmail">
-                <Form.Label>Update Email</Form.Label>
+                <Form.Label className="bold">Update Email</Form.Label>
                 <Form.Control
                   type="email"
                   placeholder="Enter new email"
@@ -266,7 +251,7 @@ const AdminPage = () => {
                 />
               </Form.Group>
               <Form.Group controlId="updateUsername">
-                <Form.Label>Update Username</Form.Label>
+                <Form.Label className="bold">Update Username</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Enter new username"

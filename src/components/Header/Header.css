@@ -3,6 +3,7 @@
 }
 .header-typography-style:hover {
   color: lightgreen !important;
+  transition: 1000ms ease-in;
 }
 
 .divider {
@@ -11,14 +12,15 @@
 .header-icons {
   display: none;
 }
+.logout-icon {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
 .nav-logo {
   font-family: cursive;
   font-size: 1.5rem;
   color: green;
-  /* background-image: url("https://examonline.in/wp-content/uploads/2020/11/What-Is-Online-Exam.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat; */
 }
 .nav-logo:hover {
   color: darkgreen;
@@ -33,4 +35,8 @@
   .desktop-class {
     display: none;
   }
+}
+
+.header-typography-style.active {
+  color: lightgreen !important;
 }

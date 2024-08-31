@@ -5,16 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-bootstrap";
 
+import { initialValue } from "./Auth-state";
 import { endpoints } from "../../endpoints/endpoints";
+import {
+  UserRole,
+  token,
+  LoggedUserRole,
+} from "../../services/userStateService";
 import "./Auth.css";
-
-const initialValue = {
-  name: "",
-  displayName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-};
 
 const Auth = () => {
   const {
@@ -25,7 +23,6 @@ const Auth = () => {
   } = useForm();
 
   const navigate = useNavigate();
-  const UserRole = localStorage.getItem("userType");
 
   const [emailError, setEmailError] = useState();
   const [passwordError, setPasswordError] = useState();
@@ -41,16 +38,23 @@ const Auth = () => {
         UserRole,
       });
 
-      console.log(response);
-
       if (login) {
         localStorage.setItem("id", response.data.existingUser._id);
         localStorage.setItem("name", response.data.existingUser.name);
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userRole", response.data.existingUser.userType);
 
-        if (UserRole === "Teacher") {
+        if (
+          UserRole === "Teacher" &&
+          LoggedUserRole === "Teacher" &&
+          token !== null
+        ) {
           navigate("/welcome-teacher");
-        } else if (UserRole === "Student") {
+        } else if (
+          UserRole === "Student" &&
+          LoggedUserRole === "Student" &&
+          token !== null
+        ) {
           navigate("/welcome-student");
         } else {
           navigate("/welcome-admin");
@@ -70,13 +74,7 @@ const Auth = () => {
       setEmailError("");
       setPasswordError("");
     } catch (error) {
-      if (error.response?.status === 400 || error.response?.status === 404) {
-        setPasswordError(error.response.data.message);
-      } else if (error.response?.status === 401) {
-        setEmailError(error.response.data.message);
-      } else if (error.response?.status === 402) {
-        setPasswordError(error.response.data.message);
-      }
+      console.error("Error logging in user: ", error.response.data.message);
     }
   };
 
