@@ -7,10 +7,7 @@ const UserRole = () => {
   return (
     <div className="login-background">
       <div className="row justify-content-center">
-        <h1
-          className="text-center mb-5 user-role"
-          style={{ color: "darkblue", fontSize: "50px" }}
-        >
+        <h1 className="text-center mb-5 user-role">
           <strong>What is your role?</strong>
         </h1>
         <div className="col-auto">
@@ -21,6 +18,7 @@ const UserRole = () => {
               localStorage.removeItem("id");
               localStorage.removeItem("token");
               localStorage.removeItem("name");
+              localStorage.removeItem("userType");
               localStorage.setItem("userType", "admin");
               navigate("/login");
             }}
@@ -49,6 +47,7 @@ const UserRole = () => {
               localStorage.removeItem("id");
               localStorage.removeItem("token");
               localStorage.removeItem("name");
+              localStorage.removeItem("userRole");
               localStorage.setItem("userType", "Student");
               navigate("/login");
             }}

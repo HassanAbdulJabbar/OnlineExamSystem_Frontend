@@ -21,6 +21,8 @@ const ExamDetails = () => {
 
         const { answers } = await examResponse.json();
 
+        console.log("answers", answers);
+
         const uniqueRecords = answers.reduce((acc, current) => {
           const existingRecord = acc.find(
             (record) =>

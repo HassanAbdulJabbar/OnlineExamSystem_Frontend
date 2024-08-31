@@ -53,7 +53,10 @@
     height: 30%;
   }
 }
-
+.user-role {
+  color: darkblue;
+  font-size: 50px;
+}
 .side-text {
   color: darkblue;
   align-items: center;

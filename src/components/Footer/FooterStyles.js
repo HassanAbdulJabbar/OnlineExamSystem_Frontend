@@ -25,8 +25,7 @@ export const FooterContainer = styled.div`
 export const Column = styled.div`
   display: flex;
   flex-direction: column;
-  text-align: left;
-  margin-left: 60px;
+  align-items: center;
 `;
 
 export const Row = styled.div`
@@ -46,8 +45,9 @@ export const FooterLink = styled.a`
   text-decoration: none;
 
   &:hover {
-    color: green;
-    transition: 200ms ease-in;
+    color: lightgreen;
+    text-underline: 5px;
+    transition: 1000ms ease-in;
   }
 `;
 
