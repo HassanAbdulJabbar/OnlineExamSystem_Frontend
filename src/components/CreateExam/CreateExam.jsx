@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import { Button, Container, Form } from "react-bootstrap";
 
@@ -6,28 +7,20 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { endpoints } from "../../endpoints/endpoints";
 import "./CreateExam.css";
-import axios from "axios";
+import {
+  ExamData,
+  MultipleChoiceQuestion,
+  TextBasedQuestion,
+} from "./ExamData-State";
+import { json } from "react-router-dom";
 
 const CreateExam = () => {
-  const [exam, setExam] = useState({
-    title: "",
-    startDateTime: "",
-    expiryDateTime: "",
-    questions: [
-      {
-        type: "multipleChoice",
-        text: "",
-        options: ["", "", "", ""],
-        correctAnswer: "",
-        marks: 1,
-      },
-    ],
-  });
+  const [exam, setExam] = useState(ExamData);
 
   const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
-    const areQuestionsValid = exam.questions.every((question, index) => {
+    const areQuestionsValid = exam.questions.every((question) => {
       if (question.type === "multipleChoice") {
         return (
           question.text.trim() !== "" &&
@@ -88,19 +81,8 @@ const CreateExam = () => {
   const handleAddQuestion = (questionType) => {
     const newQuestion =
       questionType === "multipleChoice"
-        ? {
-            type: "multipleChoice",
-            text: "",
-            options: ["", "", "", ""],
-            correctAnswer: "",
-            marks: 1, // Default marks
-          }
-        : {
-            type: "textBased",
-            text: "",
-            correctAnswer: "",
-            marks: 1, // Default marks
-          };
+        ? MultipleChoiceQuestion
+        : TextBasedQuestion;
 
     setExam({
       ...exam,
@@ -122,28 +104,10 @@ const CreateExam = () => {
           marks: parseInt(question.marks, 10),
         })),
       };
-      console.log("examWithMarks", examWithMarks);
 
-      const response = await axios.post(
-        endpoints.createExam.newExam,
-        examWithMarks,
-        {
-          headers: {
-            "content-type": "application/json",
-          },
-        }
-      );
-
-      if (response.ok) {
-        console.log("Exam created successfully!");
-        // TODO: Add any additional logic after successful exam creation
-      } else {
-        console.error("Failed to create exam:", response.statusText);
-        // TODO: Handle error cases
-      }
+      await axios.post(endpoints.createExam.newExam, examWithMarks);
     } catch (error) {
       console.error("Error creating exam:", error.message);
-      // TODO: Handle error cases
     }
   };
 

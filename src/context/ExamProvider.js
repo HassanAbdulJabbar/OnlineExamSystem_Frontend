@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ExamContext from "./ExamContext";
 import { endpoints } from "../endpoints/endpoints";
-import { token } from "../services/userStateService";
+import { token } from "../services/userState.service";
 
 const ExamProvider = ({ children }) => {
   const [approvedExams, setApprovedExams] = useState([]);

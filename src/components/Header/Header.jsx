@@ -3,7 +3,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import "./Header.css";
-import { LoggedUserRole, UserRole } from "../../services/userStateService";
+import { LoggedUserRole, UserRole } from "../../services/userState.service";
 
 const Header = () => {
   const onClickNavbarBrand = () => {

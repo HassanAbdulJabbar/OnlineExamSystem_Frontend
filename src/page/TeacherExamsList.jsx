@@ -7,6 +7,7 @@ import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import { endpoints } from "../endpoints/endpoints";
+import "../styles/App.css";
 
 const ActiveExamsTable = () => {
   const [exams, setExams] = useState(null);
@@ -15,17 +16,17 @@ const ActiveExamsTable = () => {
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
 
   useEffect(() => {
-    const fetchExams = async () => {
-      try {
-        const response = await axios.get(endpoints.examApproval.getExams);
-        setExams(response.data.exams);
-      } catch (error) {
-        console.error("Error fetching exams:", error);
-      }
-    };
-
     fetchExams();
   }, []);
+
+  const fetchExams = async () => {
+    try {
+      const response = await axios.get(endpoints.examApproval.getExams);
+      setExams(response.data.exams);
+    } catch (error) {
+      console.error("Error fetching exams:", error);
+    }
+  };
 
   const handleViewExam = (examId) => {
     const selectedExam = exams.find((exam) => exam._id === examId);
@@ -75,7 +76,7 @@ const ActiveExamsTable = () => {
       <>
         <Header />
         <div className="mt-5 pt-5 mb-5 pb-5 mx-lg-5 mx-md-3 mx-sm-2">
-          <h1 className="mb-3 text-center">Active Exams</h1>
+          <h1 className="mb-3 text-center bold">Active Exams</h1>
           <br />
           <div className="table-responsive">
             <Table striped bordered hover>

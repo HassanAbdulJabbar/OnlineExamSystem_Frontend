@@ -14,17 +14,17 @@ const ApprovalList = () => {
   const [editedApprovalStatus, setEditedApprovalStatus] = useState("");
 
   useEffect(() => {
-    const fetchExams = async () => {
-      try {
-        const response = await axios.get(endpoints.examApproval.updatedExams);
-        setExams(response.data);
-      } catch (error) {
-        console.error("Error fetching exams:", error);
-      }
-    };
-
     fetchExams();
   }, []);
+
+  const fetchExams = async () => {
+    try {
+      const response = await axios.get(endpoints.examApproval.updatedExams);
+      setExams(response.data);
+    } catch (error) {
+      console.error("Error fetching exams:", error);
+    }
+  };
 
   const handleShowEditModal = (exam) => {
     setEditedExam(exam);
@@ -52,7 +52,6 @@ const ApprovalList = () => {
             : exam
         )
       );
-
       setShowEditModal(false);
     } catch (error) {
       console.error("Error editing approval:", error);
@@ -65,7 +64,7 @@ const ApprovalList = () => {
         <Header />
         <div className="mt-5 pt-5 mb-5 pb-5 mx-lg-5 mx-md-3 mx-sm-1">
           <h1 className="mb-2 text-center">
-            <strong>Active Exams</strong>
+            <strong>Exam Approval Status</strong>
           </h1>
           <br />
           <div className="table-responsive">

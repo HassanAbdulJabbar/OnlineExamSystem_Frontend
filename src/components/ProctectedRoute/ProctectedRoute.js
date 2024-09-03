@@ -1,18 +1,14 @@
 import React from "react";
+import { UserRole, token } from "../../services/userState.service";
+import UnauthorizedError from "../UnauthorizedError/UnauthorizedError";
 
-const ProtectedRoute = ({ Component, role, unauthorizedAccess }) => {
-  const userRole = localStorage.getItem("userType");
-  const token = localStorage.getItem("token");
+const ProtectedRoute = ({ Component, role }) => {
   let component;
 
-  if (userRole === role && token !== null) {
+  if (UserRole === role && token !== null) {
     component = <Component />;
   } else {
-    component = (
-      <h1 className="text-center mt-5">
-        You are not authorized to access this page
-      </h1>
-    );
+    component = <UnauthorizedError />;
   }
 
   return <>{component}</>;

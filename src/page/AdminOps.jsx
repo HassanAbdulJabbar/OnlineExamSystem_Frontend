@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Axios from "axios";
+import axios from "axios";
 
 import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 
@@ -24,7 +24,7 @@ const AdminPage = () => {
     }
 
     try {
-      await Axios.post(endpoints.adminAddUsers.userAdd(userType), {
+      await axios.post(endpoints.adminAddUsers.userAdd(userType), {
         name,
         email,
         password,
