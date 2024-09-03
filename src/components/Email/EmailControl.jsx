@@ -9,13 +9,10 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { endpoints } from "../../endpoints/endpoints";
 import "./EmailControl.css";
+import { emailState } from "./EmailState";
 
 const InviteForm = () => {
-  const [inviteData, setInviteData] = useState({
-    receiverEmail: "",
-    emailSubject: "",
-    emailBody: "",
-  });
+  const [inviteData, setInviteData] = useState(emailState);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,23 +24,15 @@ const InviteForm = () => {
 
   const handleSendInvite = async () => {
     try {
-      const response = await axios.post(endpoints.sendEmail.newEmail, {
+      await axios.post(endpoints.sendEmail.newEmail, {
         receiverEmail: inviteData.receiverEmail,
         emailSubject: inviteData.emailSubject,
         emailBody: inviteData.emailBody,
       });
+      setInviteData(emailState);
 
-      // Clear form data
-      setInviteData({
-        receiverEmail: "",
-        emailSubject: "",
-        emailBody: "",
-      });
-
-      // Show success notification
       toast.success("Email sent successfully!");
     } catch (error) {
-      // Show error notification
       toast.error("Error sending invite: " + error.message);
     }
   };

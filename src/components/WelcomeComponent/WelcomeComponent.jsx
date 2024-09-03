@@ -1,24 +1,21 @@
 import React from "react";
-
 import { Container, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { endpoints } from "../../endpoints/endpoints";
 
+import { endpoints } from "../../endpoints/endpoints";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import { UserId, UserRole } from "../../services/userState.service";
 
 const WelcomeComponent = () => {
   const [user, setUser] = useState(null);
-
-  const UserRole = localStorage.getItem("userType");
-  const userId = localStorage.getItem("id");
 
   const fetchUserProfile = async () => {
     try {
       const response = await axios.get(endpoints.adminAddUsers.getAllUsers);
 
-      const loggedUser = response.data.filter((user) => user._id === userId);
+      const loggedUser = response.data.filter((user) => user._id === UserId);
       setUser(loggedUser[0]);
     } catch (error) {
       console.error("Error fetching user profile:", error);

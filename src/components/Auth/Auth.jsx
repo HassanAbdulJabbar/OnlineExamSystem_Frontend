@@ -5,13 +5,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-bootstrap";
 
-import { initialValue } from "./Auth-state";
+import { initialValue } from "./Auth-state.service";
 import { endpoints } from "../../endpoints/endpoints";
 import {
   UserRole,
   token,
   LoggedUserRole,
-} from "../../services/userStateService";
+} from "../../services/userState.service";
 import "./Auth.css";
 
 const Auth = () => {

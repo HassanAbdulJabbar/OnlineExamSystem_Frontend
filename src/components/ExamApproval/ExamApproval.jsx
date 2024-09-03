@@ -13,18 +13,18 @@ const ExamApprovalComponent = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    const fetchExams = async () => {
-      try {
-        const response = await axios.get(endpoints.examApproval.getExams);
-
-        setExams(response.data.exams);
-      } catch (error) {
-        console.error("Error fetching exams:", error);
-      }
-    };
-
     fetchExams();
   }, []);
+
+  const fetchExams = async () => {
+    try {
+      const response = await axios.get(endpoints.examApproval.getExams);
+
+      setExams(response.data.exams);
+    } catch (error) {
+      console.error("Error fetching exams:", error);
+    }
+  };
 
   const approveExam = async (examId) => {
     try {

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   Alert,
@@ -14,9 +15,10 @@ import {
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Timer from "../Timer/Timer";
-import ExamContext from "../../context/ExamContext"; // Update the path accordingly
+import ExamContext from "../../context/ExamContext";
 import { endpoints } from "../../endpoints/endpoints";
-import axios from "axios";
+import { UserId } from "../../services/userState.service";
+import { Excellent, Fail, Good } from "./ExamResult";
 
 const ExamComponent = () => {
   const { approvedExams } = useContext(ExamContext);
@@ -71,7 +73,7 @@ const ExamComponent = () => {
   const handleUserResponse = (response) => {
     const currentQuestion = questions[currentQuestionIndex];
     const obtainedMarksForQuestion =
-      response === currentQuestion.correctAnswer ? currentQuestion.marks : 0; // Assign 0 if the answer is wrong
+      response === currentQuestion.correctAnswer ? currentQuestion.marks : 0;
 
     setUserResponses((prevResponses) => {
       const previousMarks = prevResponses[currentQuestionIndex]?.marks || 0;
@@ -83,7 +85,6 @@ const ExamComponent = () => {
         },
       };
 
-      // Update total marks correctly
       setTotalMarks(
         (prevTotal) => prevTotal - previousMarks + obtainedMarksForQuestion
       );
@@ -99,24 +100,15 @@ const ExamComponent = () => {
     determinePassOrFail();
 
     try {
-      const response = await axios.post(endpoints.exam.userExam, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      await axios.post(endpoints.exam.userExam, {
         body: JSON.stringify({
           examId,
-          userId: localStorage.getItem("id"),
-          userResponses: Object.values(userResponses), // Extract values from the object
+          userId: UserId,
+          userResponses: Object.values(userResponses),
           totalMarks,
           passOrFail,
         }),
       });
-
-      if (response.ok) {
-        console.log("User responses saved successfully!");
-      } else {
-        console.error("Failed to save user responses:", response.statusText);
-      }
     } catch (error) {
       console.error("Error saving user responses:", error.message);
     }
@@ -140,25 +132,25 @@ const ExamComponent = () => {
       percentageCorrect,
       resultStatus:
         percentageCorrect >= 85
-          ? "Superb/Excellent"
+          ? Excellent
           : percentageCorrect >= 70
-          ? "Good"
-          : "Fail",
+            ? Good
+            : Fail,
     };
   };
+
+  const results = showResults && calculateResults();
 
   const determinePassOrFail = () => {
     const totalPossibleMarks = questions.reduce((sum, q) => sum + q.marks, 0);
     const percentageCorrect = (totalMarks / totalPossibleMarks) * 100;
 
-    if (percentageCorrect >= 40) {
+    if (percentageCorrect >= 40 && results) {
       setPassOrFail("Pass");
     } else {
       setPassOrFail("Fail");
     }
   };
-
-  const results = showResults && calculateResults();
 
   return (
     <>

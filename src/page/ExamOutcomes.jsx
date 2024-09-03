@@ -9,42 +9,40 @@ const ExamDetails = () => {
   const [examData, setExamData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const examResponse = await fetch(endpoints.examOutcomes.examResult);
-
-        if (!examResponse.ok) {
-          throw new Error(
-            `Failed to fetch exam data: ${examResponse.statusText}`
-          );
-        }
-
-        const { answers } = await examResponse.json();
-
-        console.log("answers", answers);
-
-        const uniqueRecords = answers.reduce((acc, current) => {
-          const existingRecord = acc.find(
-            (record) =>
-              record.candidate === current.candidate &&
-              record.exam === current.exam
-          );
-
-          if (!existingRecord) {
-            acc.push(current);
-          }
-
-          return acc;
-        }, []);
-
-        setExamData(uniqueRecords || []);
-      } catch (error) {
-        console.error("Error fetching User's exam data:", error);
-      }
-    };
-
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const examResponse = await fetch(endpoints.examOutcomes.examResult);
+
+      if (!examResponse.ok) {
+        throw new Error(
+          `Failed to fetch exam data: ${examResponse.statusText}`
+        );
+      }
+
+      const { answers } = await examResponse.json();
+
+      const uniqueRecords = answers.reduce((acc, current) => {
+        const existingRecord = acc.find(
+          (record) =>
+            record.candidate === current.candidate &&
+            record.exam === current.exam
+        );
+
+        if (!existingRecord) {
+          acc.push(current);
+        }
+
+        return acc;
+      }, []);
+
+      setExamData(uniqueRecords || []);
+    } catch (error) {
+      console.error("Error fetching User's exam data:", error);
+    }
+  };
 
   return (
     <>

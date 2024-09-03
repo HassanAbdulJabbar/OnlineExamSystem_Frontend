@@ -7,17 +7,16 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { endpoints } from "../../endpoints/endpoints";
 import "./UserProfile.css";
+import { UserId } from "../../services/userState.service";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
-
-  const userId = localStorage.getItem("id");
 
   const fetchUserProfile = async () => {
     try {
       const response = await axios.get(endpoints.adminAddUsers.getAllUsers);
 
-      const loggedUser = response.data.filter((user) => user._id === userId);
+      const loggedUser = response.data.filter((user) => user._id === UserId);
       setUser(loggedUser[0]);
     } catch (error) {
       console.error("Error fetching user profile:", error);
