@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
@@ -7,6 +6,7 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { endpoints } from "../../endpoints/endpoints";
+import axiosInstance from "../../interceptors/interceptor";
 import "./ExamList.css";
 
 const ExamList = () => {
@@ -19,7 +19,7 @@ const ExamList = () => {
 
   const fetchApprovedExams = async () => {
     try {
-      const approvalResponse = await axios.get(
+      const approvalResponse = await axiosInstance.get(
         endpoints.examApproval.updatedExams
       );
       if (!Array.isArray(approvalResponse.data)) {
@@ -30,7 +30,9 @@ const ExamList = () => {
         .filter((approval) => approval.approved === "approved")
         .map((approval) => approval.exam);
 
-      const examsResponse = await axios.get(endpoints.examApproval.getExams);
+      const examsResponse = await axiosInstance.get(
+        endpoints.examApproval.getExams
+      );
       if (!Array.isArray(examsResponse.data.exams)) {
         return;
       }

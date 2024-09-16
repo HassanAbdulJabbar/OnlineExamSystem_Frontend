@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
-import axios from "axios";
-
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import { endpoints } from "../endpoints/endpoints";
+import axiosInstance from "../interceptors/interceptor";
 
 const AdminExamDetails = () => {
   const { id } = useParams();
@@ -18,7 +17,7 @@ const AdminExamDetails = () => {
 
   const fetchExam = async () => {
     try {
-      const response = await axios.get(endpoints.examApproval.getExams);
+      const response = await axiosInstance.get(endpoints.examApproval.getExams);
       setExamDetails(response.data);
     } catch (error) {
       console.error("Error fetching Exam:", error);

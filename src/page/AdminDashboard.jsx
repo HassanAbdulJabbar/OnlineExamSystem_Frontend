@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Modal } from "react-bootstrap";
 
-import axios from "axios";
-
 import { endpoints } from "../endpoints/endpoints";
 import Header from "../components/Header/Header";
+import axiosInstance from "../interceptors/interceptor";
 import Footer from "../components/Footer/Footer";
 
 const ApprovalList = () => {
@@ -19,7 +18,9 @@ const ApprovalList = () => {
 
   const fetchExams = async () => {
     try {
-      const response = await axios.get(endpoints.examApproval.updatedExams);
+      const response = await axiosInstance.get(
+        endpoints.examApproval.updatedExams
+      );
       setExams(response.data);
     } catch (error) {
       console.error("Error fetching exams:", error);
@@ -38,7 +39,7 @@ const ApprovalList = () => {
 
   const handleEditApproval = async () => {
     try {
-      await axios.put(
+      await axiosInstance.put(
         endpoints.adminEditApproval.editExamApproval(editedExam._id),
         {
           approved: editedApprovalStatus,

@@ -1,9 +1,9 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import axios from "axios";
 
 import { endpoints } from "../../endpoints/endpoints";
+import axiosInstance from "../../interceptors/interceptor";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { UserId, UserRole } from "../../services/userState.service";
@@ -13,7 +13,9 @@ const WelcomeComponent = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(endpoints.adminAddUsers.getAllUsers);
+      const response = await axiosInstance.get(
+        endpoints.adminAddUsers.getAllUsers
+      );
 
       const loggedUser = response.data.filter((user) => user._id === UserId);
       setUser(loggedUser[0]);

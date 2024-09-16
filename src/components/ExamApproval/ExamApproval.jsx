@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 import { Button, Container, Modal, Table } from "react-bootstrap";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { endpoints } from "../../endpoints/endpoints";
+import axiosInstance from "../../interceptors/interceptor";
 
 const ExamApprovalComponent = () => {
   const [exams, setExams] = useState([]);
@@ -18,7 +18,7 @@ const ExamApprovalComponent = () => {
 
   const fetchExams = async () => {
     try {
-      const response = await axios.get(endpoints.examApproval.getExams);
+      const response = await axiosInstance.get(endpoints.examApproval.getExams);
 
       setExams(response.data.exams);
     } catch (error) {
@@ -28,8 +28,10 @@ const ExamApprovalComponent = () => {
 
   const approveExam = async (examId) => {
     try {
-      await axios.put(endpoints.examApproval.approveExams(examId));
-      const updatedExams = await axios.get(endpoints.examApproval.updatedExams);
+      await axiosInstance.put(endpoints.examApproval.approveExams(examId));
+      const updatedExams = await axiosInstance.get(
+        endpoints.examApproval.updatedExams
+      );
       setExams(updatedExams.data);
     } catch (error) {
       console.error("Error approving exam:", error);
@@ -38,8 +40,10 @@ const ExamApprovalComponent = () => {
 
   const disapproveExam = async (examId) => {
     try {
-      await axios.put(endpoints.examApproval.disapproveExams(examId));
-      const updatedExams = await axios.get(endpoints.examApproval.getExams);
+      await axiosInstance.put(endpoints.examApproval.disapproveExams(examId));
+      const updatedExams = await axiosInstance.get(
+        endpoints.examApproval.getExams
+      );
       setExams(updatedExams.data.exams);
     } catch (error) {
       console.error("Error disapproving exam:", error);
@@ -48,8 +52,10 @@ const ExamApprovalComponent = () => {
 
   const cancelExam = async (examId) => {
     try {
-      await axios.put(endpoints.examApproval.cancelExams(examId));
-      const updatedExams = await axios.get(endpoints.examApproval.getExams);
+      await axiosInstance.put(endpoints.examApproval.cancelExams(examId));
+      const updatedExams = await axiosInstance.get(
+        endpoints.examApproval.getExams
+      );
       setExams(updatedExams.data.exams);
     } catch (error) {
       console.error("Error cancelling exam:", error);

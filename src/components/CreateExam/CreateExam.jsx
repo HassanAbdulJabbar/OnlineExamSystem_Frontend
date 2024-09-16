@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 import { Button, Container, Form } from "react-bootstrap";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { endpoints } from "../../endpoints/endpoints";
+import axiosInstance from "../../interceptors/interceptor";
 import "./CreateExam.css";
 import {
   ExamData,
   MultipleChoiceQuestion,
   TextBasedQuestion,
 } from "./ExamData-State";
-import { json } from "react-router-dom";
 
 const CreateExam = () => {
   const [exam, setExam] = useState(ExamData);
@@ -105,7 +104,7 @@ const CreateExam = () => {
         })),
       };
 
-      await axios.post(endpoints.createExam.newExam, examWithMarks);
+      await axiosInstance.post(endpoints.createExam.newExam, examWithMarks);
     } catch (error) {
       console.error("Error creating exam:", error.message);
     }

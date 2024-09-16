@@ -1,12 +1,21 @@
 import React from "react";
-import { UserRole, token } from "../../services/userState.service";
-import UnauthorizedError from "../UnauthorizedError/UnauthorizedError";
+import {
+  LoggedUserRole,
+  UserRole,
+  token,
+} from "../../services/userState.service";
+import {
+  UnauthorizedError,
+  UnmatchedUserRole,
+} from "../UnauthorizedError/UnauthorizedError";
 
 const ProtectedRoute = ({ Component, role }) => {
   let component;
 
-  if (UserRole === role && token !== null) {
+  if (UserRole === LoggedUserRole && token !== null) {
     component = <Component />;
+  } else if (UserRole !== LoggedUserRole) {
+    component = <UnmatchedUserRole />;
   } else {
     component = <UnauthorizedError />;
   }

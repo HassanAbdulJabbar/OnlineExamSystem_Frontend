@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Axios from "axios";
 
 import { Button, Form, Modal, Table } from "react-bootstrap";
 
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import { endpoints } from "../endpoints/endpoints";
+import axiosInstance from "../interceptors/interceptor";
 import "../styles/App.css";
 
 const AdminPage = () => {
@@ -24,7 +24,9 @@ const AdminPage = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await Axios.get(endpoints.adminAddUsers.getAllUsers);
+      const response = await axiosInstance.get(
+        endpoints.adminAddUsers.getAllUsers
+      );
 
       const studentData = response.data.filter(
         (user) => user.userType === "Student"
@@ -68,7 +70,7 @@ const AdminPage = () => {
         );
       }
 
-      await Axios.put(
+      await axiosInstance.put(
         endpoints.adminUpdateUsers.updatedUserEndpoint(updateUserEndpoint),
         {
           name: updateName,
@@ -105,7 +107,7 @@ const AdminPage = () => {
         );
       }
 
-      await Axios.delete(
+      await axiosInstance.delete(
         endpoints.adminDeleteUsers.DeleteUserEndpoint(deleteUserEndpoint)
       );
 

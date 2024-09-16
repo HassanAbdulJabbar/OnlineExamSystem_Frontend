@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
+
 import { Link, useSearchParams } from "react-router-dom";
 import {
   Alert,
@@ -17,6 +17,7 @@ import Footer from "../Footer/Footer";
 import Timer from "../Timer/Timer";
 import ExamContext from "../../context/ExamContext";
 import { endpoints } from "../../endpoints/endpoints";
+import axiosInstance from "../../interceptors/interceptor";
 import { UserId } from "../../services/userState.service";
 import { Excellent, Fail, Good } from "./ExamResult";
 
@@ -100,7 +101,7 @@ const ExamComponent = () => {
     determinePassOrFail();
 
     try {
-      await axios.post(endpoints.exam.userExam, {
+      await axiosInstance.post(endpoints.exam.userExam, {
         body: JSON.stringify({
           examId,
           userId: UserId,
