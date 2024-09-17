@@ -7,16 +7,19 @@ import { LoggedUserRole, UserRole } from "../../services/userState.service";
 
 const Header = () => {
   const onClickNavbarBrand = () => {
-    if (LoggedUserRole === "admin") {
+    if (LoggedUserRole === "admin" && UserRole === "admin") {
       return () => {
+        console.log("admin");
         window.location.href = "/welcome-admin";
       };
-    } else if (LoggedUserRole === "Teacher") {
+    } else if (LoggedUserRole === "Teacher" && UserRole === "Teacher") {
       return () => {
+        console.log("teacher");
         window.location.href = "/welcome-teacher";
       };
-    } else if (LoggedUserRole === "Student") {
+    } else if (LoggedUserRole === "Student" && UserRole === "Student") {
       return () => {
+        console.log("student");
         window.location.href = "/welcome-student";
       };
     }

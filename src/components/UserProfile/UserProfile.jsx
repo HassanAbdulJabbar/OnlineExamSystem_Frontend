@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 import { Card, Container, Col, Row } from "react-bootstrap";
 
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { endpoints } from "../../endpoints/endpoints";
+import axiosInstance from "../../interceptors/interceptor";
 import "./UserProfile.css";
 import { UserId } from "../../services/userState.service";
 
@@ -14,7 +14,9 @@ const UserProfile = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(endpoints.adminAddUsers.getAllUsers);
+      const response = await axiosInstance.get(
+        endpoints.adminAddUsers.getAllUsers
+      );
 
       const loggedUser = response.data.filter((user) => user._id === UserId);
       setUser(loggedUser[0]);

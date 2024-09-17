@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -7,6 +6,7 @@ import { Alert } from "react-bootstrap";
 
 import { initialValue } from "./Auth-state.service";
 import { endpoints } from "../../endpoints/endpoints";
+import axiosInstance from "../../interceptors/interceptor";
 import {
   UserRole,
   token,
@@ -33,7 +33,7 @@ const Auth = () => {
     const apiEndpoint = login ? endpoints.auth.signin : endpoints.auth.signup;
 
     try {
-      const response = await axios.post(apiEndpoint, {
+      const response = await axiosInstance.post(apiEndpoint, {
         ...values,
         UserRole,
       });

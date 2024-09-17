@@ -1,14 +1,12 @@
-import axios from "axios";
+import axiosInstance from "../interceptors/interceptor";
 import { endpoints } from "../endpoints/endpoints";
 
 export const signIn = async (values, userRole) => {
   try {
-    const response = await axios.post(endpoints.auth.signin, {
+    const response = await axiosInstance.post(endpoints.auth.signin, {
       ...values,
       UserRole: userRole,
     });
-
-    console.log("--------", response.data);
 
     localStorage.setItem("id", response.data.existingUser._id);
     localStorage.setItem("name", response.data.existingUser.name);
@@ -22,7 +20,7 @@ export const signIn = async (values, userRole) => {
 
 export const signUp = async (values, userRole) => {
   try {
-    const response = await axios.post(endpoints.auth.signup, {
+    const response = await axiosInstance.post(endpoints.auth.signup, {
       ...values,
       UserRole: userRole,
     });

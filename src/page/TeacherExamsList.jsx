@@ -1,12 +1,10 @@
-// ActiveExamsTable.js
 import React, { useState, useEffect } from "react";
 import { Table, Button, Modal } from "react-bootstrap";
-
-import axios from "axios";
 
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import { endpoints } from "../endpoints/endpoints";
+import axiosInstance from "../interceptors/interceptor";
 import "../styles/App.css";
 
 const ActiveExamsTable = () => {
@@ -21,7 +19,7 @@ const ActiveExamsTable = () => {
 
   const fetchExams = async () => {
     try {
-      const response = await axios.get(endpoints.examApproval.getExams);
+      const response = await axiosInstance.get(endpoints.examApproval.getExams);
       setExams(response.data.exams);
     } catch (error) {
       console.error("Error fetching exams:", error);
@@ -36,7 +34,7 @@ const ActiveExamsTable = () => {
 
   const handleRemoveExam = async (examId) => {
     try {
-      await axios.delete(endpoints.removeExam.deleteExam(examId));
+      await axiosInstance.delete(endpoints.removeExam.deleteExam(examId));
 
       setExams((prevExams) => {
         const updatedExams = prevExams.filter((exam) => exam._id !== examId);
@@ -49,7 +47,7 @@ const ActiveExamsTable = () => {
 
   const handleDeleteExam = async (examId) => {
     try {
-      await axios.delete(endpoints.removeExam.deleteExam(examId));
+      await axiosInstance.delete(endpoints.removeExam.deleteExam(examId));
 
       setExams((prevExams) => prevExams.filter((exam) => exam._id !== examId));
 

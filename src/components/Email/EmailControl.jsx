@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -8,6 +7,7 @@ import { Button, Container, Form } from "react-bootstrap";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { endpoints } from "../../endpoints/endpoints";
+import axiosInstance from "../../interceptors/interceptor";
 import "./EmailControl.css";
 import { emailState } from "./EmailState";
 
@@ -24,7 +24,7 @@ const InviteForm = () => {
 
   const handleSendInvite = async () => {
     try {
-      await axios.post(endpoints.sendEmail.newEmail, {
+      await axiosInstance.post(endpoints.sendEmail.newEmail, {
         receiverEmail: inviteData.receiverEmail,
         emailSubject: inviteData.emailSubject,
         emailBody: inviteData.emailBody,
